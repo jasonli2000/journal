@@ -113,7 +113,7 @@ class Journal_NotificationComponent extends AppComponent
    */
   public function newComment($resourceDao)
     {
-
+    $this->getLogger()->warn("New Comment is Added");
     }
   /**
    * This function is being called whenever a new review is added to a
@@ -123,7 +123,6 @@ class Journal_NotificationComponent extends AppComponent
    */
   public function newReview($resourceDao)
     {
-
     }
 
   private function formMailHeader($contactEmail, $ccList, $bccList)

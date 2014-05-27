@@ -31,6 +31,7 @@ class Journal_Notification extends ApiEnabled_Notification
     $this->addEvent('EVENT_JOURNAL_UPLOAD_GITHUB', 'TASK_JOURNAL_UPLOAD_GITHUB');
     $this->addCallBack('CALLBACK_CORE_GET_CONFIG_TABS', 'getConfigTabs');
     $this->addCallBack('CALLBACK_CORE_AUTHENTICATION', 'authIntercept');
+    $this->addCallBack('CALLBACK_COMMENTS_ADDED_COMMENT', 'commentAdded');
     }//end init
     
   /** Backup github*/
@@ -88,7 +89,15 @@ class Journal_Notification extends ApiEnabled_Notification
     $webroot = $fc->getBaseUrl();
     return array('Notification' => $webroot.'/journal/user/notification?userId='.$user->getKey());
     }
- 
+  
+  /**
+   *  Notify comments are added via email
+   */
+  public function commentAdded($params)
+    {
+    $resourceDao = "";
+    MidasLoader::loadComponent("Notification", "journal")->newComment($resourceDao);
+    }
   } //end class
 ?>
 
