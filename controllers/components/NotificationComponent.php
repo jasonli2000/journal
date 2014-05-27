@@ -44,7 +44,7 @@ class Journal_NotificationComponent extends AppComponent
     $layout->setScriptPath(BASE_PATH . '/privateModules/journal/views/email');
     $view->setScriptPath(BASE_PATH . '/privateModules/journal/views/email');
 
-    #$contactEmail = $resourceDao->getSubmitter()->getEmail();
+    $contactEmail = ""; //@TODO, find a way to get the email address
     // extract the information from resourceDao
     $adminGroup = $resourceDao->getAdminGroup();
     $adminUsers = $adminGroup->getUsers();
@@ -88,9 +88,9 @@ class Journal_NotificationComponent extends AppComponent
     $headers = $this->formMailHeader($contactEmail, null, $adminList);
 
     // send mail to the submitter
-    mail($to, $subject, $bodyText, $headers, self.defaultAdminEmail);
+    mail($to, $subject, $bodyText, $headers, $defaultAdminEmail);
     // send mail to admins
-    mail($to, $subject, $bodyText, $headers, self.defaultAdminEmail);
+    mail($to, $subject, $bodyText, $headers, $defaultAdminEmail);
     }
 
   /**
