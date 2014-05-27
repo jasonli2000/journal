@@ -44,7 +44,7 @@ class Journal_NotificationComponent extends AppComponent
     $layout->setScriptPath(BASE_PATH . '/privateModules/journal/views/email');
     $view->setScriptPath(BASE_PATH . '/privateModules/journal/views/email');
 
-    $contactEmail = Zend_Registry::get('contactEmail');
+    $contactEmail = $this->userSession->Dao->getEmail();
     // extract the information from resourceDao
     $adminGroup = $resourceDao->getAdminGroup();
     $adminUsers = $adminGroup->getUsers();
