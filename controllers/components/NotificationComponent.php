@@ -31,8 +31,11 @@ class Journal_NotificationComponent extends AppComponent
   public function sendForApproval($resourceDao)
     {
     //TODO & make sure multiple notification
-    //
-    $this->getLogger()->warn("Send for approval is called" . $resourceDao->getName());
+    // Need to send email notification to
+    // *. Administrator of the community
+    // *. Editors in this specific issue
+    // *. Submitter
+    $this->getLogger()->error("Send for approval is called" . $resourceDao->getName());
     $fc = Zend_Controller_Front::getInstance();
     $baseUrl = UtilityComponent::getServerURL().$fc->getBaseUrl();
 
@@ -43,11 +46,32 @@ class Journal_NotificationComponent extends AppComponent
 
     $contactEmail = Zend_Registry::get('contactEmail');
     // extract the information from resourceDao
-    $adminUsers = $resourceDao->getAdminGroup()->getUsers();
+    $adminGroup = $resourceDao->getAdminGroup();
+    $adminUsers = $adminGroup->getUsers();
     $adminList = "";
     foreach ($adminUsers as $adminUser)
       {
       $adminList .= $adminUser->getEmail() . ",";
+      }
+    // extract the editor group based resourceDao
+    $folder = end($resourceDao->getFolders());
+    $editGroup = '';
+    $editList = '';
+    foreach ($folder->getFolderpolicygroup() as $policy)
+      {
+      if ($policy->getPolicy() == MIDAS_POLICY_ADMIN && $adminGroup->getKey() != $policy->getGroupId())
+        {
+        $editGroup = $policy->getGroup();
+        break;
+        }
+      }
+    if (!empty($editGroup))
+      {
+        $editUsers = $editGroup->getUsers();
+        foreach ($editUsers as $editUser)
+          {
+          $editList .= $editUser->getEmail() . ",";
+          }
       }
     $name = $resourceDao->getName();
     $view->assign("webroot", $baseUrl);
