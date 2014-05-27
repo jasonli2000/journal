@@ -96,6 +96,8 @@ class Journal_Notification extends ApiEnabled_Notification
   public function commentAdded($params)
     {
     $resourceDao = "";
+    echo $params;
+    $debugParams = implode(",", $params);
     $this->getLogger()->warn("params is " . $params);
     MidasLoader::loadComponent("Notification", "journal")->newComment($resourceDao);
     }
