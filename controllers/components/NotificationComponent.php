@@ -87,7 +87,7 @@ class Journal_NotificationComponent extends AppComponent
     $subject = 'A New Submission is waiting for approval';
     $to = '';
     // form the email headers part
-    $headers = $this->formMailHeader($contactEmail, editGroup, $adminList);
+    $headers = $this->formMailHeader($contactEmail, $editList, $adminList);
     $this->getLogger()->warn("Email Header is " . $headers);
     // send mail to the submitter
     mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
