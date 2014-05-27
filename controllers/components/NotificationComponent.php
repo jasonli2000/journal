@@ -53,7 +53,7 @@ class Journal_NotificationComponent extends AppComponent
       {
       $adminList .= $adminUser->getEmail() . ",";
       }
-    $this->getLogger().warn("AdminList is " . $adminList);
+    $this->getLogger()->warn("AdminList is " . $adminList);
     // extract the editor group based resourceDao
     $folder = end($resourceDao->getFolders());
     $editGroup = '';
@@ -74,7 +74,7 @@ class Journal_NotificationComponent extends AppComponent
           $editList .= $editUser->getEmail() . ",";
           }
       }
-    $this->getLogger().warn("editList is " . $editList);
+    $this->getLogger()->warn("editList is " . $editList);
     $name = $resourceDao->getName();
     $view->assign("webroot", $baseUrl);
     $view->assign("name", $name);
