@@ -1,0 +1,49 @@
+
+<table border="0" width="100%" cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
+
+      <td style="padding:0px 0px 0px 0px" valign="top" width="100%" rowspan="1" colspan="1" align="center">
+
+        <table border="0" width="100%" cellspacing="0" cellpadding="0">
+          <tbody>
+            <tr>
+              <td style="color:#454545;font-family:Arial,Helvetica,sans-serif;font-size:10pt;padding:8px 32px 9px 32px" valign="top" rowspan="1" colspan="1" align="left">
+                  <p style="color:black;font-family:Arial,Helvetica,sans-serif;font-size:14pt">
+                    <b>
+                      <span class="il">Processing complete</span></b><br/>
+                      <span style="color:#454545;font-family:Arial,Helvetica,sans-serif;font-size:12pt"><?php echo $this->item->getName() ?></span>
+                  </p>
+
+                  <p style="text-align:justify;text-justify:inter-word;">Dear Dr. <?php echo $this->user->getFullName()?>,</p> 
+                  <p style="text-align: justify;text-justify:inter-word;">Your slide has been processed and is now available in your Virtual Microscope Dashboard.</p>
+     
+                <p style="text-align: justify;text-justify:inter-word;">
+                  The dashboard lists the status of all the slides your uploaded. 
+                  <?php if(!$this->isBook) echo "Once all slides are uploaded, the dashboard allows you to submit them for review."?>
+                </p>
+ 
+                <p style="text-align: justify;text-justify:inter-word;" align="left">
+                  <a style="color:#ee5624;font-family:Arial,Helvetica,sans-serif;font-weight:bold;font-size:10pt" 
+                     shape="rect" href="<?php echo $this->webroot ?>/elsevierdp/dashboard" target="_blank">View Virtual Microscope Dashboard</a>
+                  (login with your manuscript submission number and password )
+                </p>
+
+                <p style="text-align: justify;text-justify:inter-word;">For any support issues, please contact <a style="color:#ee5624;font-family:Arial,Helvetica,sans-serif;font-weight:bold;font-size:10pt"   target="_blank" href="mailto:<?php echo $this->contactEmail ?>"><?php echo $this->contactEmail ?></a>. </p>
+
+                <p style="text-align:justify;text-justify:inter-word;">The Elsevier Virtual Microscope Team.</p>
+                <br/>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      
+
+
+      </td>
+
+    </tr>
+  </tbody>
+</table>

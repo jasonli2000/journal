@@ -19,13 +19,105 @@
 
 class Journal_NotificationComponent extends AppComponent
 {  
+  /**
+   * This function is being called when a non-administrator
+   * submit a journal.
+   * @TODO send out an email to all administrators who can
+   * approve this submission.
+   * @TODO send out an email to nofity author(submitter) that
+   * the new submission is currently under review.
+   */
+  protected defaultAdminEmail = "-admin@osehra.org"
   public function sendForApproval($resourceDao)
     {
     //TODO & make sur note multiple notification
-    }
+      //
+    $fc = Zend_Controller_Front::getInstance();
+    $baseUrl = UtilityComponent::getServerURL().$fc->getBaseUrl();
+
+    $layout = new Zend_View();
+    $view = new Zend_View();
+    $layout->setScriptPath(BASE_PATH . '/privateModules/journal/views/email');
+    $view->setScriptPath(BASE_PATH . '/privateModules/journal/views/email');
     
+    $contactEmail = Zend_Registry::get('contactEmail');
+    // extract the information from resourceDao
+    $adminUsers = $resourceDao->getAdminGroup()->getUsers();
+    $adminList = "";
+    foreach ($adminUsers as $adminUser)
+      {
+      $adminList .= $adminUser->getEmail() . ",";
+      }
+    $name = $resourceDao->getName();
+    $view->assign("webroot", $baseUrl);
+    $view->assign("name", $name);
+    $view->assign("login", $login);
+    $view->assign("password", $password);
+    $view->assign("isjournal", $isjournal);
+    $view->assign("contactEmail", $contactEmail);
+    $layout->assign("webroot", $baseUrl);
+    $layout->assign("content", $view->render('newuser.phtml'));
+    $bodyText = $layout->render('layout.phtml');
+    $subject = 'A New Submission is waiting for approval';
+    $to = '';
+    // form the email headers part
+    $headers = $this->formMailHeader($contactEmail, null, $adminList);
+
+    // send mail to the submitter
+    mail($to, $subject, $bodyText, $headers, self.defaultAdminEmail);
+    // send mail to admins
+    mail($to, $subject, $bodyText, $headers, self.defaultAdminEmail);
+    }
+  
+  /**
+   * This function is being called when a new journal is submitted.
+   * @TODO send out email to notify author as well as all users that are
+   * subscribe to this notification.
+   */ 
   public function newArticle($resourceDao)
     {
     
+    }
+  /**
+   * This function is being called whenever a new comments is added to a
+   * journal.
+   * @TODO send out email to notify author as well as all users that are
+   * subscribe to this notification.
+   */ 
+  public function newComment($resourceDao)
+    {
+    
+    }
+  /**
+   * This function is being called whenever a new review is added to a
+   * journal.
+   * @TODO send out email to notify author as well as all users that are
+   * subscribe to this notification.
+   */ 
+  public function newReview($resourceDao)
+    {
+    
+    }
+
+  private function formMailHeader($contactEmail, $ccList, $bccList)
+    {
+    $fromEmail = "OTJ Support<otj@osehra.org>"; // @TODO, change to valid email
+    $replyEmail = "no-reply@osehra.org"; # do not reply to osehra
+    $linesep = "\r\n";
+    $headers = 'To: ' . $contactEmail . $linesep;
+    $headers .= 'From: ' . $fromEmail . $linesep;
+    $headers .= "Reply-To: " . $replyEmail . $linesep;
+    if ($ccList != '')
+      {
+      $headers .= "Cc: " . $ccList . $linesep;
+      }
+    if ($bccList != '')
+      {
+      $headers .= "Bcc: " . $bccList . $linesep;
+      }
+    $headers .='X-Mailer: PHP/' . phpversion();
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
+    return $headers;
     }
 } // end class
