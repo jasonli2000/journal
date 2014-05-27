@@ -18,7 +18,7 @@
  *=========================================================================*/
 
 class Journal_NotificationComponent extends AppComponent
-{  
+{
   /**
    * This function is being called when a non-administrator
    * submit a journal.
@@ -27,11 +27,12 @@ class Journal_NotificationComponent extends AppComponent
    * @TODO send out an email to nofity author(submitter) that
    * the new submission is currently under review.
    */
-  protected defaultAdminEmail = "-admin@osehra.org"
+  protected $defaultAdminEmail = "-admin@osehra.org"
   public function sendForApproval($resourceDao)
     {
-    //TODO & make sur note multiple notification
-      //
+    //TODO & make sure multiple notification
+    //
+    $this->getLogger()->warn("Send for approval is called" . $resourceDao->getName())
     $fc = Zend_Controller_Front::getInstance();
     $baseUrl = UtilityComponent::getServerURL().$fc->getBaseUrl();
 
@@ -39,7 +40,7 @@ class Journal_NotificationComponent extends AppComponent
     $view = new Zend_View();
     $layout->setScriptPath(BASE_PATH . '/privateModules/journal/views/email');
     $view->setScriptPath(BASE_PATH . '/privateModules/journal/views/email');
-    
+
     $contactEmail = Zend_Registry::get('contactEmail');
     // extract the information from resourceDao
     $adminUsers = $resourceDao->getAdminGroup()->getUsers();
@@ -68,35 +69,35 @@ class Journal_NotificationComponent extends AppComponent
     // send mail to admins
     mail($to, $subject, $bodyText, $headers, self.defaultAdminEmail);
     }
-  
+
   /**
    * This function is being called when a new journal is submitted.
    * @TODO send out email to notify author as well as all users that are
    * subscribe to this notification.
-   */ 
+   */
   public function newArticle($resourceDao)
     {
-    
+
     }
   /**
    * This function is being called whenever a new comments is added to a
    * journal.
    * @TODO send out email to notify author as well as all users that are
    * subscribe to this notification.
-   */ 
+   */
   public function newComment($resourceDao)
     {
-    
+
     }
   /**
    * This function is being called whenever a new review is added to a
    * journal.
    * @TODO send out email to notify author as well as all users that are
    * subscribe to this notification.
-   */ 
+   */
   public function newReview($resourceDao)
     {
-    
+
     }
 
   private function formMailHeader($contactEmail, $ccList, $bccList)
