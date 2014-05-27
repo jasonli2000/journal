@@ -87,8 +87,8 @@ class Journal_NotificationComponent extends AppComponent
     $subject = 'A New Submission is waiting for approval';
     $to = '';
     // form the email headers part
-    $headers = $this->formMailHeader($contactEmail, null, $adminList);
-
+    $headers = $this->formMailHeader($contactEmail, editGroup, $adminList);
+    $this->getLogger()->warn("Email Header is " . $headers);
     // send mail to the submitter
     mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     // send mail to admins
@@ -133,11 +133,11 @@ class Journal_NotificationComponent extends AppComponent
     $headers = 'To: ' . $contactEmail . $linesep;
     $headers .= 'From: ' . $fromEmail . $linesep;
     $headers .= "Reply-To: " . $replyEmail . $linesep;
-    if ($ccList != '')
+    if (!empty($ccList))
       {
       $headers .= "Cc: " . $ccList . $linesep;
       }
-    if ($bccList != '')
+    if (!empty($bccList))
       {
       $headers .= "Bcc: " . $bccList . $linesep;
       }
