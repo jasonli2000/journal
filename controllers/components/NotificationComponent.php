@@ -35,7 +35,6 @@ class Journal_NotificationComponent extends AppComponent
     // *. Administrator of the community
     // *. Editors in this specific issue
     // *. Submitter
-    var_dump($resourceDao);
     $this->getLogger()->warn("Send for approval is called" . $resourceDao->getName());
     $fc = Zend_Controller_Front::getInstance();
     $baseUrl = UtilityComponent::getServerURL().$fc->getBaseUrl();
@@ -46,7 +45,8 @@ class Journal_NotificationComponent extends AppComponent
     $view->setScriptPath(BASE_PATH . '/privateModules/journal/views/email');
 
     $contactEmail = $resourceDao->getSubmitter()->getEmail();
-    $contactEmail = ""; //@TODO, find a way to get the email address
+    $this->getLogger()->warn("Contact Email is " . $contactEmail);
+    //$contactEmail = ""; //@TODO, find a way to get the email address
     // extract the information from resourceDao
     $adminGroup = $resourceDao->getAdminGroup();
     $adminUsers = $adminGroup->getUsers();
