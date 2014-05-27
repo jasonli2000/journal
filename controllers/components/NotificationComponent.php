@@ -35,6 +35,7 @@ class Journal_NotificationComponent extends AppComponent
     // *. Administrator of the community
     // *. Editors in this specific issue
     // *. Submitter
+    var_dump($resourceDao);
     $this->getLogger()->warn("Send for approval is called" . $resourceDao->getName());
     $fc = Zend_Controller_Front::getInstance();
     $baseUrl = UtilityComponent::getServerURL().$fc->getBaseUrl();
