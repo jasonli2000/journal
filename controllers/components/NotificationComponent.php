@@ -32,7 +32,7 @@ class Journal_NotificationComponent extends AppComponent
     {
     //TODO & make sure multiple notification
     //
-    $this->getLogger()->warn("Send for approval is called" . $resourceDao->getName())
+    $this->getLogger()->warn("Send for approval is called" . $resourceDao->getName());
     $fc = Zend_Controller_Front::getInstance();
     $baseUrl = UtilityComponent::getServerURL().$fc->getBaseUrl();
 
