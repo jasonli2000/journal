@@ -95,8 +95,13 @@ class Journal_Notification extends ApiEnabled_Notification
    */
   public function commentAdded($params)
     {
-    $resourceDao = "";
-    echo $params;
+    $itemId = $params['itemId'];
+    $item = MidasLoader::loadModel("Item")->load($itemId);      
+    if(!MidasLoader::loadModel("Item")->policyCheck($item, $this->userSession->Dao, MIDAS_POLICY_WRITE))
+      {
+      throw new Zend_Exception("Permissions error.");
+      }
+    $resourceDao = MidasLoader::loadModel("Item")->initDao("Resource", $item->toArray(), "journal");
     MidasLoader::loadComponent("Notification", "journal")->newComment($resourceDao);
     }
   } //end class
