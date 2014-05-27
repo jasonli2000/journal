@@ -84,6 +84,7 @@ class Journal_NotificationComponent extends AppComponent
     $layout->assign("webroot", $baseUrl);
     $layout->assign("content", $view->render('newuser.phtml'));
     $bodyText = $layout->render('layout.phtml');
+    $this->getLogger()->warn("Body Text is " . $bodyText);
     $subject = 'A New Submission is waiting for approval';
     $to = '';
     // form the email headers part
