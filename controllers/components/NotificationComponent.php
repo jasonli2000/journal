@@ -44,7 +44,7 @@ class Journal_NotificationComponent extends AppComponent
     $layout->setScriptPath(BASE_PATH . '/privateModules/journal/views/email');
     $view->setScriptPath(BASE_PATH . '/privateModules/journal/views/email');
 
-    $contactEmail = $resourceDao->getSubmitter()->getEmail();
+    #$contactEmail = $resourceDao->getSubmitter()->getEmail();
     // extract the information from resourceDao
     $adminGroup = $resourceDao->getAdminGroup();
     $adminUsers = $adminGroup->getUsers();
@@ -53,6 +53,7 @@ class Journal_NotificationComponent extends AppComponent
       {
       $adminList .= $adminUser->getEmail() . ",";
       }
+    $this->getLogger().warn("AdminList is " . $adminList);
     // extract the editor group based resourceDao
     $folder = end($resourceDao->getFolders());
     $editGroup = '';
@@ -73,12 +74,10 @@ class Journal_NotificationComponent extends AppComponent
           $editList .= $editUser->getEmail() . ",";
           }
       }
+    $this->getLogger().warn("editList is " . $editList);
     $name = $resourceDao->getName();
     $view->assign("webroot", $baseUrl);
     $view->assign("name", $name);
-    $view->assign("login", $login);
-    $view->assign("password", $password);
-    $view->assign("isjournal", $isjournal);
     $view->assign("contactEmail", $contactEmail);
     $layout->assign("webroot", $baseUrl);
     $layout->assign("content", $view->render('newuser.phtml'));
