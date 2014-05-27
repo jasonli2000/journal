@@ -88,9 +88,9 @@ class Journal_NotificationComponent extends AppComponent
     $headers = $this->formMailHeader($contactEmail, null, $adminList);
 
     // send mail to the submitter
-    mail($to, $subject, $bodyText, $headers, $defaultAdminEmail);
+    mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     // send mail to admins
-    mail($to, $subject, $bodyText, $headers, $defaultAdminEmail);
+    mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     }
 
   /**
