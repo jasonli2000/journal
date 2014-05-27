@@ -27,7 +27,7 @@ class Journal_NotificationComponent extends AppComponent
    * @TODO send out an email to nofity author(submitter) that
    * the new submission is currently under review.
    */
-  protected $defaultAdminEmail = "-admin@osehra.org"
+  protected $defaultAdminEmail = "-admin@osehra.org";
   public function sendForApproval($resourceDao)
     {
     //TODO & make sure multiple notification
