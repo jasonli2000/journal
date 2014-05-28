@@ -89,14 +89,15 @@ class Journal_Notification extends ApiEnabled_Notification
     $webroot = $fc->getBaseUrl();
     return array('Notification' => $webroot.'/journal/user/notification?userId='.$user->getKey());
     }
-  
+
   /**
    *  Notify comments are added via email
    */
   public function commentAdded($params)
     {
-    $itemId = $params['itemId'];
-    $item = MidasLoader::loadModel("Item")->load($itemId);      
+    $commentDao = $params['comment'];
+    $itemId = $commentDao->getItemId();
+    $item = MidasLoader::loadModel("Item")->load($itemId);
     if(!MidasLoader::loadModel("Item")->policyCheck($item, $this->userSession->Dao, MIDAS_POLICY_WRITE))
       {
       throw new Zend_Exception("Permissions error.");
@@ -109,4 +110,4 @@ class Journal_Notification extends ApiEnabled_Notification
 
 
 
- 
+
