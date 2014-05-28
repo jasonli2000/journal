@@ -103,7 +103,7 @@ class Journal_NotificationComponent extends AppComponent
    */
   public function newArticle($resourceDao)
     {
-
+    $this->getLogger()->warn("New Comment is Added");
     }
   /**
    * This function is being called whenever a new comments is added to a
