@@ -21,7 +21,7 @@ class Journal_NotificationComponent extends AppComponent
 {
   /**
    * This function is being called when a non-administrator
-   * submit a journal.
+   * submit a journal article.
    * @TODO send out an email to all administrators who can
    * approve this submission.
    * @TODO send out an email to nofity author(submitter) that
@@ -35,7 +35,7 @@ class Journal_NotificationComponent extends AppComponent
     // *. Administrator of the community
     // *. Editors in this specific issue
     // *. Submitter
-    $this->getLogger()->warn("Send for approval is called" . $resourceDao->getName());
+    $this->getLogger()->debug("Send for approval is called" . $resourceDao->getName());
     $fc = Zend_Controller_Front::getInstance();
     $baseUrl = UtilityComponent::getServerURL().$fc->getBaseUrl();
 
@@ -55,7 +55,7 @@ class Journal_NotificationComponent extends AppComponent
       {
       $adminList .= $adminUser->getEmail() . ",";
       }
-    $this->getLogger()->warn("AdminList is " . $adminList);
+    $this->getLogger()->debug("AdminList is " . $adminList);
     // extract the editor group based resourceDao
     $folder = end($resourceDao->getFolders());
     $editGroup = '';
@@ -78,21 +78,20 @@ class Journal_NotificationComponent extends AppComponent
       }
     $this->getLogger()->warn("editList is " . $editList);
     $name = $resourceDao->getName();
+    $this->getLogger()->warn("Name is " . $name);
     $view->assign("webroot", $baseUrl);
     $view->assign("name", $name);
     $view->assign("contactEmail", $contactEmail);
     $layout->assign("webroot", $baseUrl);
-    $layout->assign("content", $view->render('newuser.phtml'));
+    $layout->assign("content", $view->render('sendforapproval.phtml'));
     $bodyText = $layout->render('layout.phtml');
-    $this->getLogger()->warn("Body Text is " . $bodyText);
-    $subject = 'A New Submission is waiting for approval';
+    $this->getLogger()->debug("Body Text is " . $bodyText);
+    $subject = 'New Submission - Pending Approval: ' . $name;
     $to = '';
     // form the email headers part
     $headers = $this->formMailHeader($contactEmail, $editList, $adminList);
     $this->getLogger()->warn("Email Header is " . $headers);
     // send mail to the submitter
-    mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
-    // send mail to admins
     mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     }
 
@@ -103,7 +102,7 @@ class Journal_NotificationComponent extends AppComponent
    */
   public function newArticle($resourceDao)
     {
-    $this->getLogger()->warn("New Comment is Added");
+    $this->getLogger()->warn("New Article is Added");
     }
   /**
    * This function is being called whenever a new comments is added to a
@@ -127,8 +126,8 @@ class Journal_NotificationComponent extends AppComponent
 
   private function formMailHeader($contactEmail, $ccList, $bccList)
     {
-    $fromEmail = "OTJ Support<otj@osehra.org>"; // @TODO, change to valid email
-    $replyEmail = "no-reply@osehra.org"; # do not reply to osehra
+    $fromEmail = "OSEHRA Technical Journal <no-reply@osehra.org>"; // @TODO, change to valid email
+    $replyEmail = "OSEHRA Technical Journal <no-reply@osehra.org>"; # do not reply to osehra
     $linesep = "\r\n";
     $headers = 'To: ' . $contactEmail . $linesep;
     $headers .= 'From: ' . $fromEmail . $linesep;
