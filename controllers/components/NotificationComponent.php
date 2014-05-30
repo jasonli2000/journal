@@ -93,7 +93,7 @@ class Journal_NotificationComponent extends AppComponent
     mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     // send mail to the submitter
     $this->_createEmailView($scriptpath, $baseUrl);
-    this->_view->assign("name", $name);
+    $this->_view->assign("name", $name);
     $this->_layout->assign("content", $this->_view->render('waitforapproval.phtml'));
     $headers = $this->_formMailHeader($contactEmail, null, null);
     $bodyText = $this->_layout->render('layout.phtml');
