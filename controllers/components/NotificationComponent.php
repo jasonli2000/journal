@@ -48,7 +48,12 @@ class Journal_NotificationComponent extends AppComponent
     // extract the information from resourceDao
     $adminGroup = $resourceDao->getAdminGroup();
     $adminUsers = $adminGroup->getUsers();
-    $adminList = join(",", $adminUsers);
+    $adminList = '';
+    foreach ($adminUsers as adminUser)
+      {
+      adminList .= adminUser->getEmail() . ',';
+      }
+    if (!empty(adminList) adminList = substr(adminList, 0, -1);
     $this->getLogger()->debug("AdminList is " . $adminList);
     // extract the editor group based resourceDao
     $folder = end($resourceDao->getFolders());
@@ -65,7 +70,11 @@ class Journal_NotificationComponent extends AppComponent
     if (!empty($editGroup))
       {
         $editUsers = $editGroup->getUsers();
-        $editList = join(",", $editUsers);
+        foreach ($editUsers as $editUser)
+          {
+          $editList .= $editUser->getEmail() . ',';
+          }
+        if (!empty(editList) editList = substr(editList, 0, -1);
       }
     $this->getLogger()->warn("editList is " . $editList);
     $name = $resourceDao->getName();
