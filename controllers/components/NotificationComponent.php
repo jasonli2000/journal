@@ -82,7 +82,7 @@ class Journal_NotificationComponent extends AppComponent
     $handle = $resourceDao->getHandle();
     $authors = $resourceDao->getAuthors();
     $itemId = $resourceDao->getItemId();
-    $revisionId = $resourceDao->getRevision()->getLastRevision();
+    $revisionId = $resourceDao->getRevision()->getRevision_id();
     $authList = '';
     foreach ($authors as $author)
       {
