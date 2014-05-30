@@ -79,7 +79,7 @@ class Journal_NotificationComponent extends AppComponent
     $this->getLogger()->warn("editList is " . $editList);
     $name = $resourceDao->getName();
     $this->getLogger()->warn("Name is " . $name);
-    $this->getLogger()->warn("Description is " . $$resourceDao->getDescription());
+    $this->getLogger()->warn("Description is " . $resourceDao->getDescription());
     $view->assign("webroot", $baseUrl);
     $view->assign("name", $name);
     $view->assign("contactEmail", $contactEmail);
