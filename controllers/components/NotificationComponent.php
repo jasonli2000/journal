@@ -81,6 +81,8 @@ class Journal_NotificationComponent extends AppComponent
     $description = $resourceDao->getDescription();
     $handle = $resourceDao->getHandle();
     $authors = $resourceDao->getAuthors();
+    $itemId = $resourceDao->getItemId();
+    $revisionId = $resourceDao->getRevision();
     $authList = '';
     foreach ($authors as $author)
       {
@@ -91,6 +93,8 @@ class Journal_NotificationComponent extends AppComponent
     $this->getLogger()->warn("Description is " . $description);
     $this->getLogger()->warn("handle is " . $handle);
     $this->getLogger()->warn("Authors are " . $authList);
+    $approveLink = "/submit?revisionId=" . $revisionId;
+    $this->getLogger()->warn("link is " . $approveLink);
     $this->_view->assign("name", $name);
     $this->_view->assign("author", $authList);
     $this->_view->assign("description", $description);
