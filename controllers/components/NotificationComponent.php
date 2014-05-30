@@ -91,8 +91,11 @@ class Journal_NotificationComponent extends AppComponent
     // form the email headers part
     $headers = $this->formMailHeader($contactEmail, $editList, $adminList);
     $this->getLogger()->warn("Email Header is " . $headers);
+    return $layout;
+    // send mail to the editors
+    //mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     // send mail to the submitter
-    mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
+    // mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     }
 
   /**
@@ -103,6 +106,7 @@ class Journal_NotificationComponent extends AppComponent
   public function newArticle($resourceDao)
     {
     $this->getLogger()->warn("New Article is Added");
+    // @TODO Check user settings, but I do not think it has been implemented yet
     }
   /**
    * This function is being called whenever a new comments is added to a
@@ -110,9 +114,16 @@ class Journal_NotificationComponent extends AppComponent
    * @TODO send out email to notify author as well as all users that are
    * subscribe to this notification.
    */
-  public function newComment($resourceDao)
+  public function newComment($commentDao)
     {
     $this->getLogger()->warn("New Comment is Added");
+    $itemId = $commentDao->getItemId();
+    $item = MidasLoader::loadModel("Item")->load($itemId);
+    if(!MidasLoader::loadModel("Item")->policyCheck($item, $this->userSession->Dao, MIDAS_POLICY_WRITE))
+      {
+      throw new Zend_Exception("Permissions error.");
+      }
+    $resourceDao = MidasLoader::loadModel("Item")->initDao("Resource", $item->toArray(), "journal");
     }
   /**
    * This function is being called whenever a new review is added to a
@@ -122,6 +133,7 @@ class Journal_NotificationComponent extends AppComponent
    */
   public function newReview($resourceDao)
     {
+    $this->getLogger()->warn("New Review is Added");
     }
 
   private function formMailHeader($contactEmail, $ccList, $bccList)

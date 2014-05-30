@@ -384,7 +384,7 @@ class Journal_SubmitController extends Journal_AppController
           }
         elseif($private) // Send for approval
           {
-          MidasLoader::loadComponent("Notification", "journal")->sendForApproval($resourceDao);
+          $this->view = MidasLoader::loadComponent("Notification", "journal")->sendForApproval($resourceDao);
           }
         $this->_redirect("/journal/view/".$resourceDao->getRevision()->getKey());
         return;
