@@ -136,6 +136,45 @@ class Journal_NotificationComponent extends AppComponent
     {
     $this->getLogger()->warn("New Article is Added");
     // @TODO Check user settings, but I do not think it has been implemented yet
+    $fc = Zend_Controller_Front::getInstance();
+    $baseUrl = UtilityComponent::getServerURL().$fc->getBaseUrl();
+    $scriptpath = BASE_PATH . '/privateModules/journal/views/email';
+    $this->_createEmailView($scriptpath, $baseUrl);
+    $contactEmail = $resourceDao->getSubmitter()->getEmail();
+    $this->getLogger()->warn("Contact Email is " . $contactEmail);
+    $name = $resourceDao->getName();
+    $description = $resourceDao->getDescription();
+    $handle = $resourceDao->getHandle();
+    $authors = $resourceDao->getAuthors();
+    $itemId = $resourceDao->getItemId();
+    $revisionId = $resourceDao->getRevision()->itemrevision_id;
+    $authList = '';
+    foreach ($authors as $author)
+      {
+      $authList .= join(" ", $author) . ",";
+      }
+    if (!empty($authList)) $authList = substr($authList, 0, -1);
+    $this->getLogger()->warn("Name is " . $name);
+    $this->getLogger()->warn("Description is " . $description);
+    $this->getLogger()->warn("handle is " . $handle);
+    $this->getLogger()->warn("Authors are " . $authList);
+    $handleLink = "http://hdl.handle.net/10909/" . $handle;
+    $this->getLogger()->warn("link is " . $approveLink);
+    $this->getLogger()->warn("ItemId is " . $itemId);
+    $this->_view->assign("name", $name);
+    $this->_view->assign("author", $authList);
+    $this->_view->assign("description", $description);
+    $this->_view->assign("link", $handleLink);
+    $this->_layout->assign("content", $this->_view->render('newsubmission.phtml'));
+    $bodyText = $this->_layout->render('layout.phtml');
+    $this->getLogger()->warn("Body Text is " . $bodyText);
+    $subject = 'New Submission: ' . $name;
+    $to = '';
+    // form the email headers part
+    $headers = $this->_formMailHeader($contactEmail, $editList, $adminList);
+    $this->getLogger()->warn("Email Header is " . $headers);
+    // send mail to the editors
+    mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     }
   /**
    * This function is being called whenever a new comments is added to a
