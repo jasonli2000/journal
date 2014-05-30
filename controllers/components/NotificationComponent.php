@@ -116,7 +116,7 @@ class Journal_NotificationComponent extends AppComponent
     $readlink = "/journal/view/" . $revisionId;
     $submitter = $resourceDao->getSubmitter();
     $name = $submitter->fistname . ' ' . $submitter->lastname;
-    $this->getLogger->warn("name is " . $name);
+    $this->getLogger()->warn("name is " . $name);
     $this->_view->assign("name", $name);
     $this->_view->assign("link", $readlink);
     $this->_layout->assign("content", $this->_view->render('waitforapproval.phtml'));
