@@ -45,7 +45,6 @@ class Journal_NotificationComponent extends AppComponent
     $this->_createEmailView($scriptpath, $baseUrl);
     $contactEmail = $resourceDao->getSubmitter()->getEmail();
     $this->getLogger()->warn("Contact Email is " . $contactEmail);
-    //$contactEmail = ""; //@TODO, find a way to get the email address
     // extract the information from resourceDao
     $adminGroup = $resourceDao->getAdminGroup();
     $adminUsers = $adminGroup->getUsers();
@@ -77,6 +76,8 @@ class Journal_NotificationComponent extends AppComponent
       }
     $this->getLogger()->warn("editList is " . $editList);
     $name = $resourceDao->getName();
+    $handle = $resourceDao->getHandle();
+    $this->getLogger()->warn("handle is " . $handle);
     $this->getLogger()->warn("Name is " . $name);
     $this->getLogger()->warn("Description is " . $resourceDao->getDescription());
     $this->_view->assign("name", $name);
