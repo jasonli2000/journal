@@ -119,6 +119,7 @@ class Journal_NotificationComponent extends AppComponent
     $this->_layout->assign("content", $this->_view->render('waitforapproval.phtml'));
     $headers = $this->_formMailHeader($contactEmail, null, null);
     $bodyText = $this->_layout->render('layout.phtml');
+    $this->getLogger()->warn("Body Text is " . $bodyText);
     $this->getLogger()->warn("Email Header is " . $headers);
     mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     }
