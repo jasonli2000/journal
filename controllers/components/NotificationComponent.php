@@ -93,11 +93,13 @@ class Journal_NotificationComponent extends AppComponent
     $this->getLogger()->warn("Description is " . $description);
     $this->getLogger()->warn("handle is " . $handle);
     $this->getLogger()->warn("Authors are " . $authList);
-    $approveLink = "/submit?revisionId=" . $revisionId;
+    $approveLink = "/journal/submit?revisionId=" . $revisionId;
     $this->getLogger()->warn("link is " . $approveLink);
+    $this->getLogger()->warn("ItemId is " . $itemId);
     $this->_view->assign("name", $name);
     $this->_view->assign("author", $authList);
     $this->_view->assign("description", $description);
+    $this->_view->assign("link", $approveLink);
     $this->_layout->assign("content", $this->_view->render('sendforapproval.phtml'));
     $bodyText = $this->_layout->render('layout.phtml');
 
@@ -111,7 +113,9 @@ class Journal_NotificationComponent extends AppComponent
     mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     // send mail to the submitter
     $this->_createEmailView($scriptpath, $baseUrl);
+    $readlink = "/journal/view/" . $revisionId;
     $this->_view->assign("name", $name);
+    $this->_view->assign("link", $readlink);
     $this->_layout->assign("content", $this->_view->render('waitforapproval.phtml'));
     $headers = $this->_formMailHeader($contactEmail, null, null);
     $bodyText = $this->_layout->render('layout.phtml');
