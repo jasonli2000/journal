@@ -114,6 +114,8 @@ class Journal_NotificationComponent extends AppComponent
     // send mail to the submitter
     $this->_createEmailView($scriptpath, $baseUrl);
     $readlink = "/journal/view/" . $revisionId;
+    $submitter = $resourceDao->getSubmitter();
+    $name = $submitter->getFirstName() . ' ' . $submitter->getLastName();
     $this->_view->assign("name", $name);
     $this->_view->assign("link", $readlink);
     $this->_layout->assign("content", $this->_view->render('waitforapproval.phtml'));
