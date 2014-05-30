@@ -76,15 +76,20 @@ class Journal_NotificationComponent extends AppComponent
       }
     $this->getLogger()->warn("editList is " . $editList);
     $name = $resourceDao->getName();
+    $description = $resourceDao->getDescription();
     $handle = $resourceDao->getHandle();
-    $this->getLogger()->warn("handle is " . $handle);
+    $authors = $resourceDao->getAuthors();
     $this->getLogger()->warn("Name is " . $name);
-    $this->getLogger()->warn("Description is " . $resourceDao->getDescription());
+    $this->getLogger()->warn("Description is " . $description);
+    $this->getLogger()->warn("handle is " . $handle);
+    $this->getLogger()->warn("Authors are " . $authors);
     $this->_view->assign("name", $name);
+    $this->_view->assign("author", $authors);
+    $this->_view->assign("description", $description);
     $this->_layout->assign("content", $this->_view->render('sendforapproval.phtml'));
     $bodyText = $this->_layout->render('layout.phtml');
 
-    $this->getLogger()->debug("Body Text is " . $bodyText);
+    $this->getLogger()->warn("Body Text is " . $bodyText);
     $subject = 'New Submission - Pending Approval: ' . $name;
     $to = '';
     // form the email headers part
