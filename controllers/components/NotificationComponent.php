@@ -54,7 +54,7 @@ class Journal_NotificationComponent extends AppComponent
       $adminList .= $adminUser->getEmail() . ',';
       }
     if (!empty($adminList)) $adminList = substr($adminList, 0, -1);
-    $this->getLogger()->debug("AdminList is " . $adminList);
+    $this->getLogger()->warn("AdminList is " . $adminList);
     // extract the editor group based resourceDao
     $folder = end($resourceDao->getFolders());
     $editGroup = '';
@@ -81,13 +81,18 @@ class Journal_NotificationComponent extends AppComponent
     $description = $resourceDao->getDescription();
     $handle = $resourceDao->getHandle();
     $authors = $resourceDao->getAuthors();
-    $authList = join(", ", $authors);
+    $authList = '';
+    foreach ($authors as $author)
+      {
+      $authList .= join(" ", $author) . ",";
+      }
+    if (!empty($authList)) $authList = substr($authList, 0, -1);
     $this->getLogger()->warn("Name is " . $name);
     $this->getLogger()->warn("Description is " . $description);
     $this->getLogger()->warn("handle is " . $handle);
     $this->getLogger()->warn("Authors are " . $authList);
     $this->_view->assign("name", $name);
-    $this->_view->assign("author", $authors);
+    $this->_view->assign("author", $authList);
     $this->_view->assign("description", $description);
     $this->_layout->assign("content", $this->_view->render('sendforapproval.phtml'));
     $bodyText = $this->_layout->render('layout.phtml');
