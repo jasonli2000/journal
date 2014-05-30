@@ -28,6 +28,9 @@ class Journal_NotificationComponent extends AppComponent
    * the new submission is currently under review.
    */
   protected $defaultAdminEmail = "-admin@osehra.org";
+  private $_layout;
+  private $_view;
+
   public function sendForApproval($resourceDao)
     {
     //TODO & make sure multiple notification
@@ -38,12 +41,8 @@ class Journal_NotificationComponent extends AppComponent
     $this->getLogger()->debug("Send for approval is called" . $resourceDao->getName());
     $fc = Zend_Controller_Front::getInstance();
     $baseUrl = UtilityComponent::getServerURL().$fc->getBaseUrl();
-
-    $layout = new Zend_View();
-    $view = new Zend_View();
-    $layout->setScriptPath(BASE_PATH . '/privateModules/journal/views/email');
-    $view->setScriptPath(BASE_PATH . '/privateModules/journal/views/email');
-
+    $scriptpath = BASE_PATH . '/privateModules/journal/views/email';
+    $this->_createEmailView($scriptpath, $baseUrl);
     $contactEmail = $resourceDao->getSubmitter()->getEmail();
     $this->getLogger()->warn("Contact Email is " . $contactEmail);
     //$contactEmail = ""; //@TODO, find a way to get the email address
@@ -80,23 +79,26 @@ class Journal_NotificationComponent extends AppComponent
     $name = $resourceDao->getName();
     $this->getLogger()->warn("Name is " . $name);
     $this->getLogger()->warn("Description is " . $resourceDao->getDescription());
-    $view->assign("webroot", $baseUrl);
-    $view->assign("name", $name);
-    $view->assign("contactEmail", $contactEmail);
-    $layout->assign("webroot", $baseUrl);
-    $layout->assign("content", $view->render('sendforapproval.phtml'));
-    $bodyText = $layout->render('layout.phtml');
+    $this->_view->assign("name", $name);
+    $this->_layout->assign("content", $this->_view->render('sendforapproval.phtml'));
+    $bodyText = $this->_layout->render('layout.phtml');
+
     $this->getLogger()->debug("Body Text is " . $bodyText);
     $subject = 'New Submission - Pending Approval: ' . $name;
     $to = '';
     // form the email headers part
-    $headers = $this->formMailHeader($contactEmail, $editList, $adminList);
+    $headers = $this->_formMailHeader($contactEmail, $editList, $adminList);
     $this->getLogger()->warn("Email Header is " . $headers);
-    return $layout;
     // send mail to the editors
-    //mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
+    mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     // send mail to the submitter
-    // mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
+    $this->_createEmailView($scriptpath, $baseUrl);
+    this->_view->assign("name", $name);
+    $this->_layout->assign("content", $this->_view->render('waitforapproval.phtml'));
+    $headers = $this->_formMailHeader($contactEmail, null, null);
+    $bodyText = $this->_layout->render('layout.phtml');
+    $this->getLogger()->warn("Email Header is " . $headers);
+    mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     }
 
   /**
@@ -137,10 +139,22 @@ class Journal_NotificationComponent extends AppComponent
     $this->getLogger()->warn("New Review is Added");
     }
 
-  private function formMailHeader($contactEmail, $ccList, $bccList)
+  /**
+   * private functions
+   */
+  private function _createEmailView($scriptpath, $baseUrl)
     {
-    $fromEmail = "OSEHRA Technical Journal <no-reply@osehra.org>"; // @TODO, change to valid email
-    $replyEmail = "OSEHRA Technical Journal <no-reply@osehra.org>"; # do not reply to osehra
+    $this->_layout = new Zend_View();
+    $this->_view = new Zend_View();
+    $this->_layout->setScriptPath($scriptpath);
+    $this->_view->setScriptPath($scriptpath);
+    $this-_view->assign("webroot", $baseUrl);
+    $this-_layout->assign("webroot", $baseUrl);
+    }
+  private function _formMailHeader($contactEmail, $ccList, $bccList)
+    {
+    $fromEmail = "OSEHRA Technical Journal <no-reply@osehra.org>";
+    $replyEmail = "OSEHRA Technical Journal <no-reply@osehra.org>";
     $linesep = "\r\n";
     $headers = 'To: ' . $contactEmail . $linesep;
     $headers .= 'From: ' . $fromEmail . $linesep;
