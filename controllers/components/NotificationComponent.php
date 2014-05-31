@@ -158,7 +158,7 @@ class Journal_NotificationComponent extends AppComponent
     $this->getLogger()->warn("Description is " . $description);
     $this->getLogger()->warn("handle is " . $handle);
     $this->getLogger()->warn("Authors are " . $authList);
-    $handleLink = "http://hdl.handle.net/10909/" . $handle;
+    $handleLink = "http://hdl.handle.net/" . $handle;
     $this->getLogger()->warn("link is " . $approveLink);
     $this->getLogger()->warn("ItemId is " . $itemId);
     $this->_view->assign("name", $name);
@@ -192,6 +192,15 @@ class Journal_NotificationComponent extends AppComponent
       throw new Zend_Exception("Permissions error.");
       }
     $resourceDao = MidasLoader::loadModel("Item")->initDao("Resource", $item->toArray(), "journal");
+    $to      = 'nobody@example.com';
+    $subject = 'the subject';
+    $message = 'hello';
+    $headers = 'From: webmaster@example.com' . "\r\n" .
+        'Reply-To: webmaster@example.com' . "\r\n" .
+        'X-Mailer: PHP/' . phpversion();
+
+    $result = mail($to, $subject, $message, $headers);
+    $this->getLogger()->warn("mail result is " . $result);
     }
   /**
    * This function is being called whenever a new review is added to a
@@ -232,9 +241,9 @@ class Journal_NotificationComponent extends AppComponent
       {
       $headers .= "Bcc: " . $bccList . $linesep;
       }
-    $headers .='X-Mailer: PHP/' . phpversion();
-    $headers .= "MIME-Version: 1.0\r\n";
-    $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
+    $headers .='X-Mailer: PHP/' . phpversion() . $linesep;
+    $headers .= "MIME-Version: 1.0" . $linesep;
+    $headers .= "Content-type: text/html; charset=iso-8859-1" . $linesep;
     return $headers;
     }
 } // end class
