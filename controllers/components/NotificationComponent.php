@@ -27,7 +27,7 @@ class Journal_NotificationComponent extends AppComponent
    * @TODO send out an email to nofity author(submitter) that
    * the new submission is currently under review.
    */
-  protected $defaultAdminEmail = "-admin@osehra.org";
+  protected $defaultAdminEmail = "-fadmin@osehra.org";
   private $_layout;
   private $_view;
 
@@ -125,7 +125,7 @@ class Journal_NotificationComponent extends AppComponent
     $bodyText = $this->_layout->render('layout.phtml');
     $this->getLogger()->warn("Body Text is " . $bodyText);
     $this->getLogger()->warn("Email Header is " . $headers);
-    mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
+    $result = mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     $this->getLogger()->warn("mail result is " . $result);
     }
 
