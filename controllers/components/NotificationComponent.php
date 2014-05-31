@@ -196,11 +196,11 @@ class Journal_NotificationComponent extends AppComponent
       }
     $resourceDao = MidasLoader::loadModel("Item")->initDao("Resource", $item->toArray(), "journal");
     */
-    $to      = 'nobody@example.com';
+    $to      = 'lij@osehra.org';
     $subject = 'the subject';
     $message = 'hello';
-    $headers = 'From: webmaster@example.com' . "\r\n" .
-        'Reply-To: webmaster@example.com' . "\r\n" .
+    $headers = 'From: no-reply@osehra.com' . "\r\n" .
+        'Reply-To: no-reply@example.com' . "\r\n" .
         'X-Mailer: PHP/' . phpversion();
 
     $result = mail($to, $subject, $message, $headers);
