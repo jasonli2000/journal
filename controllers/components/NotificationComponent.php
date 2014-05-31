@@ -187,7 +187,7 @@ class Journal_NotificationComponent extends AppComponent
     $this->getLogger()->warn("New Comment is Added");
     $itemId = $commentDao->getItemId();
     $item = MidasLoader::loadModel("Item")->load($itemId);
-    if(!MidasLoader::loadModel("Item")->policyCheck($item, $this->userSession->Dao, MIDAS_POLICY_WRITE))
+    if(!MidasLoader::loadModel("Item")->policyCheck($item, $this->userSession->Dao, MIDAS_POLICY_READ))
       {
       throw new Zend_Exception("Permissions error.");
       }
