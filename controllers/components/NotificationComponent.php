@@ -110,7 +110,8 @@ class Journal_NotificationComponent extends AppComponent
     $headers = $this->_formMailHeader($contactEmail, $editList, $adminList);
     $this->getLogger()->warn("Email Header is " . $headers);
     // send mail to the editors
-    mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
+    $result = mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
+    $this->getLogger()->warn("mail result is " . $result);
     // send mail to the submitter
     $this->_createEmailView($scriptpath, $baseUrl);
     $readlink = "/journal/view/" . $revisionId;
@@ -125,6 +126,7 @@ class Journal_NotificationComponent extends AppComponent
     $this->getLogger()->warn("Body Text is " . $bodyText);
     $this->getLogger()->warn("Email Header is " . $headers);
     mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
+    $this->getLogger()->warn("mail result is " . $result);
     }
 
   /**
@@ -243,7 +245,7 @@ class Journal_NotificationComponent extends AppComponent
       }
     $headers .='X-Mailer: PHP/' . phpversion() . $linesep;
     $headers .= "MIME-Version: 1.0" . $linesep;
-    $headers .= "Content-type: text/html; charset=iso-8859-1" . $linesep;
+    $headers .= "Content-type: text/html; charset=iso-8859-1"; 
     return $headers;
     }
 } // end class
