@@ -116,7 +116,7 @@ class Journal_NotificationComponent extends AppComponent
     $this->_createEmailView($scriptpath, $baseUrl);
     $readlink = "/journal/view/" . $revisionId;
     $submitter = $resourceDao->getSubmitter();
-    $name = $submitter.getFullName()
+    $name = $submitter.getFullName();
     $this->getLogger()->info("name is " . $name);
     $this->_view->assign("name", $name);
     $this->_view->assign("link", $readlink);
