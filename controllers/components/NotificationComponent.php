@@ -45,37 +45,10 @@ class Journal_NotificationComponent extends AppComponent
     $this->_createEmailView($scriptpath, $baseUrl);
     $contactEmail = $resourceDao->getSubmitter()->getEmail();
     $this->getLogger()->info("Contact Email is " . $contactEmail);
-    // extract the information from resourceDao
-    $adminGroup = $resourceDao->getAdminGroup();
-    $adminUsers = $adminGroup->getUsers();
-    $adminList = '';
-    foreach ($adminUsers as $adminUser)
-      {
-      $adminList .= $adminUser->getEmail() . ',';
-      }
-    if (!empty($adminList)) $adminList = substr($adminList, 0, -1);
+    $adminList = $this->_getSubmissionAdmins($resourceDao);
     $this->getLogger()->info("AdminList is " . $adminList);
     // extract the editor group based resourceDao
-    $folder = end($resourceDao->getFolders());
-    $editGroup = '';
-    $editList = '';
-    foreach ($folder->getFolderpolicygroup() as $policy)
-      {
-      if ($policy->getPolicy() == MIDAS_POLICY_ADMIN && $adminGroup->getKey() != $policy->getGroupId())
-        {
-        $editGroup = $policy->getGroup();
-        break;
-        }
-      }
-    if (!empty($editGroup))
-      {
-        $editUsers = $editGroup->getUsers();
-        foreach ($editUsers as $editUser)
-          {
-          $editList .= $editUser->getEmail() . ',';
-          }
-        if (!empty($editList)) $editList = substr($editList, 0, -1);
-      }
+    $editList = $this->_getSubmissionEditorEmails($resourceDao);
     $this->getLogger()->info("editList is " . $editList);
     $name = $resourceDao->getName();
     $description = $resourceDao->getDescription();
@@ -173,6 +146,8 @@ class Journal_NotificationComponent extends AppComponent
     $subject = 'New Submission: ' . $name;
     $to = '';
     // form the email headers part
+    $editList = $this->_getSubmissionAdminEmails($resourceDao);
+    $adminList = $this->_getSubmissionEditorEmails($resourceDao);
     $headers = $this->_formMailHeader($contactEmail, $editList, $adminList);
     $this->getLogger()->info("Email Header is " . $headers);
     // send mail to the editors
@@ -196,20 +171,33 @@ class Journal_NotificationComponent extends AppComponent
     $baseUrl = UtilityComponent::getServerURL().$fc->getBaseUrl();
     $scriptpath = BASE_PATH . '/privateModules/journal/views/email';
     $this->_createEmailView($scriptpath, $baseUrl);
+    // No need to check the permission here as it should have some access
+    // to this journal item to make the comment
     $resourceDao = MidasLoader::loadModel("Item")->initDao("Resource", $item->toArray(), "journal");
     $submitter = $resourceDao->getSubmitter();
     $contactEmail = $submitter->getEmail();
+    $title = $resourceDao->getName();
+    $handle = $resourceDao->getHandle();
     $this->getLogger()->info("contact email is " . $contactEmail);
     $this->getLogger()->info("comment email is " . $comment);
     $this->getLogger()->info("comment user is " . $userDao->getFullName());
-
-    /*
-    if(!MidasLoader::loadModel("Item")->policyCheck($item, $this->userSession->Dao, MIDAS_POLICY_READ))
-      {
-      throw new Zend_Exception("Permissions error.");
-      }
-    $resourceDao = MidasLoader::loadModel("Item")->initDao("Resource", $item->toArray(), "journal");
-    */
+    $this->_view->assign("name", $$userDao->getFullName());
+    $this->_view->assign("title", $title);
+    $this->_view->assign("comments", $comment);
+    $handleLink = "http://hdl.handle.net/" . $handle;
+    $this->_view->assign("link", $handleLink);
+    $this->_layout->assign("content", $this->_view->render('newcomment.phtml'));
+    $bodyText = $this->_layout->render('layout.phtml');
+    $this->getLogger()->info("Body Text is " . $bodyText);
+    $subject = 'Comment Added - Submission: ' . $name;
+    $to = '';
+    // form the email headers part
+    $editList = $this->_getSubmissionEditorEmails($resourceDao);
+    $adminList = $this->_getSubmissionAdminEmails($resourceDao);
+    $headers = $this->_formMailHeader($contactEmail, $editList, $adminList);
+    $this->getLogger()->info("Email Header is " . $headers);
+    // send mail to the editors
+    mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     }
   /**
    * This function is being called whenever a new review is added to a
@@ -254,6 +242,44 @@ class Journal_NotificationComponent extends AppComponent
     $headers .= "MIME-Version: 1.0" . $linesep;
     $headers .= "Content-type: text/html; charset=iso-8859-1"; 
     return $headers;
+    }
+  private function _getSubmissionAdminEmails($resourceDao)
+    {
+    // extract the information from resourceDao
+    $adminGroup = $resourceDao->getAdminGroup();
+    $adminUsers = $adminGroup->getUsers();
+    $adminList = '';
+    foreach ($adminUsers as $adminUser)
+      {
+      $adminList .= $adminUser->getEmail() . ',';
+      }
+    if (!empty($adminList)) $adminList = substr($adminList, 0, -1);
+    return $adminList;
+    }
+  private function _getSubmissionEditorEmails($resourceDao)
+    {
+    $folder = end($resourceDao->getFolders());
+    $editGroup = '';
+    $editList = '';
+    $adminGroup = $resourceDao->getAdminGroup();
+    foreach ($folder->getFolderpolicygroup() as $policy)
+      {
+      if ($policy->getPolicy() == MIDAS_POLICY_ADMIN && $adminGroup->getKey() != $policy->getGroupId())
+        {
+        $editGroup = $policy->getGroup();
+        break;
+        }
+      }
+    if (!empty($editGroup))
+      {
+        $editUsers = $editGroup->getUsers();
+        foreach ($editUsers as $editUser)
+          {
+          $editList .= $editUser->getEmail() . ',';
+          }
+        if (!empty($editList)) $editList = substr($editList, 0, -1);
+      }
+    return $editList;
     }
   private function _testMail()
     {
