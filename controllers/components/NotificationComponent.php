@@ -181,7 +181,7 @@ class Journal_NotificationComponent extends AppComponent
     $this->getLogger()->info("contact email is " . $contactEmail);
     $this->getLogger()->info("comment email is " . $comment);
     $this->getLogger()->info("comment user is " . $userDao->getFullName());
-    $this->_view->assign("name", $$userDao->getFullName());
+    $this->_view->assign("name", $userDao->getFullName());
     $this->_view->assign("title", $title);
     $this->_view->assign("comments", $comment);
     $handleLink = "http://hdl.handle.net/" . $handle;
