@@ -80,6 +80,7 @@ class Reviewosehra_SubmitController extends Reviewosehra_AppController
       $reviewDao->setCacheSummary($cacheSummary);
       $reviewDao->setComplete($is_complete);
       MidasLoader::loadModel("Review", 'reviewosehra')->save($reviewDao);
+      Zend_Registry::get('notifier')->callback('CALLBACK_REVIEW_ADDED', array('review' => $reviewDao));
       echo JsonComponent::encode($this->view->webroot."/journal/view/?revisionId=".$reviewDao->getRevisionId());
       return;
       }

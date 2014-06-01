@@ -65,6 +65,7 @@ class Reviewosehra_AdminController extends Reviewosehra_AppController
           {
           $review-> setRevisionId($revision->getKey());
           MidasLoader::loadModel("Review", "reviewosehra")->save($review);
+          Zend_Registry::get('notifier')->callback('CALLBACK_REVIEW_ADDED', array('review' => $review));
           }
         }
       $this->_redirect("/reviewosehra/admin/manage?itemId=".$itemId);
