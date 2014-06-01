@@ -32,6 +32,7 @@ class Journal_Notification extends ApiEnabled_Notification
     $this->addCallBack('CALLBACK_CORE_GET_CONFIG_TABS', 'getConfigTabs');
     $this->addCallBack('CALLBACK_CORE_AUTHENTICATION', 'authIntercept');
     $this->addCallBack('CALLBACK_COMMENTS_ADDED_COMMENT', 'commentAdded');
+    $this->addCallBack('CALLBACK_REVIEW_ADDED', 'reviewAdded');
     }//end init
     
   /** Backup github*/
@@ -97,6 +98,14 @@ class Journal_Notification extends ApiEnabled_Notification
     {
     $commentDao = $params['comment'];
     MidasLoader::loadComponent("Notification", "journal")->newComment($commentDao);
+    }
+  /**
+   *  Notify reviews are added via email
+   */
+  public function reviewAdded($params)
+    {
+    $reviewDao = $params['review'];
+    MidasLoader::loadComponent("Notification", "journal")->newReview($reviewDao);
     }
   } //end class
 ?>

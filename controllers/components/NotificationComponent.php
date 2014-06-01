@@ -205,7 +205,7 @@ class Journal_NotificationComponent extends AppComponent
    * @TODO send out email to notify author as well as all users that are
    * subscribe to this notification.
    */
-  public function newReview($resourceDao)
+  public function newReview($reviewDao)
     {
     $this->getLogger()->info("New Review is Added");
     }
