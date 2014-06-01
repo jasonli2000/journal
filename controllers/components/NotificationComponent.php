@@ -45,7 +45,7 @@ class Journal_NotificationComponent extends AppComponent
     $this->_createEmailView($scriptpath, $baseUrl);
     $contactEmail = $resourceDao->getSubmitter()->getEmail();
     $this->getLogger()->info("Contact Email is " . $contactEmail);
-    $adminList = $this->_getSubmissionAdmins($resourceDao);
+    $adminList = $this->_getSubmissionAdminEmails($resourceDao);
     $this->getLogger()->info("AdminList is " . $adminList);
     // extract the editor group based resourceDao
     $editList = $this->_getSubmissionEditorEmails($resourceDao);
