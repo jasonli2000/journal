@@ -255,7 +255,7 @@ class Journal_NotificationComponent extends AppComponent
     $headers .= "Content-type: text/html; charset=iso-8859-1"; 
     return $headers;
     }
-  private function _testMail():
+  private function _testMail()
     {
     $to      = 'lij@osehra.org';
     $subject = 'the subject';
