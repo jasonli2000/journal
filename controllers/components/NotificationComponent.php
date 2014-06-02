@@ -38,7 +38,7 @@ class Journal_NotificationComponent extends AppComponent
     // *. Administrator of the community
     // *. Editors in this specific issue
     // *. Submitter
-    $this->getLogger()->debug("Send for approval is called" . $resourceDao->getName());
+    $this->getLogger()->info("Send for approval is called" . $resourceDao->getName());
     $fc = Zend_Controller_Front::getInstance();
     $baseUrl = UtilityComponent::getServerURL().$fc->getBaseUrl();
     $scriptpath = BASE_PATH . '/privateModules/journal/views/email';
@@ -109,7 +109,7 @@ class Journal_NotificationComponent extends AppComponent
    */
   public function newArticle($resourceDao)
     {
-    $this->getLogger()->debug("New Article is Added");
+    $this->getLogger()->info("New Article is Added");
     // @TODO Check user settings, but I do not think it has been implemented yet
     $fc = Zend_Controller_Front::getInstance();
     $baseUrl = UtilityComponent::getServerURL().$fc->getBaseUrl();
@@ -161,7 +161,7 @@ class Journal_NotificationComponent extends AppComponent
    */
   public function newComment($commentDao)
     {
-    $this->getLogger()->debug("New Comment is Added");
+    $this->getLogger()->info("New Comment is Added");
     $itemId = $commentDao->getItemId();
     $userId = $commentDao->getUserId();
     $comment = $commentDao->getComment();
@@ -207,7 +207,7 @@ class Journal_NotificationComponent extends AppComponent
    */
   public function newReview($reviewDao)
     {
-    $this->getLogger()->debug("New Review is Added");
+    $this->getLogger()->info("New Review is Added");
     $fc = Zend_Controller_Front::getInstance();
     $baseUrl = UtilityComponent::getServerURL().$fc->getBaseUrl();
     $scriptpath = BASE_PATH . '/privateModules/journal/views/email';
