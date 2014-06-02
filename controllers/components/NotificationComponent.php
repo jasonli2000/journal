@@ -208,10 +208,40 @@ class Journal_NotificationComponent extends AppComponent
   public function newReview($reviewDao)
     {
     $this->getLogger()->info("New Review is Added");
+    $fc = Zend_Controller_Front::getInstance();
+    $baseUrl = UtilityComponent::getServerURL().$fc->getBaseUrl();
+    $scriptpath = BASE_PATH . '/privateModules/journal/views/email';
+    $this->_createEmailView($scriptpath, $baseUrl);
     $userId = $reviewDao->getUserId();
-    $this->getLogger()->info("User Id is " . $userId);
-    $revisionId = $reviewDao->getRevisionId();
-    $this->getLogger()->info("Revision Id is " . $revisionId);
+    $revision_id = $reviewDao->getRevisionId();
+    $userDao = MidasLoader::loadModel("User")->load($userId);
+    $name = $userDao->getFullName();
+    $this->getLogger()->info("User name is " . $name);
+    $revision = MidasLoader::loadModel("ItemRevision")->load($revision_id);
+    $itemDao = $revision->getItem();
+    $resourceDao = MidasLoader::loadModel("Item")->initDao("Resource", $itemDao->toArray(), "journal");
+    $contactEmail = $resourceDao->getSubmitter()->getEmail();
+    $title = $resourceDao->getName();
+    $handle = $resourceDao->getHandle();
+    $this->getLogger()->info("Name is " . $name);
+    $this->getLogger()->info("Description is " . $description);
+    $this->getLogger()->info("handle is " . $handle);
+    $viewLink =  $baseUrl . "/journal/view/" . $revision_id;
+    $this->_view->assign("name", $name);
+    $this->_view->assign("title", $title);
+    $this->_view->assign("link", $viewLink);
+    $this->_layout->assign("content", $this->_view->render('newreview.phtml'));
+    $bodyText = $this->_layout->render('layout.phtml');
+    $this->getLogger()->info("Body Text is " . $bodyText);
+    $subject = 'New Review: ' . $name;
+    $to = '';
+    // form the email headers part
+    $editList = $this->_getSubmissionAdminEmails($resourceDao);
+    $adminList = $this->_getSubmissionEditorEmails($resourceDao);
+    $headers = $this->_formMailHeader($contactEmail, $editList, $adminList);
+    $this->getLogger()->info("Email Header is " . $headers);
+    // send mail to the editors
+    mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     }
 
   /**
