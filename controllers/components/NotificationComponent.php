@@ -214,6 +214,8 @@ class Journal_NotificationComponent extends AppComponent
     $this->_createEmailView($scriptpath, $baseUrl);
     $userId = $reviewDao->getUserId();
     $revision_id = $reviewDao->getRevisionId();
+    $reviewId = $reviewDao->getKey();
+    $this->getLogger()->info("Review Id is " . $reviewId);
     $userDao = MidasLoader::loadModel("User")->load($userId);
     $name = $userDao->getFullName();
     $this->getLogger()->info("User name is " . $name);
@@ -226,7 +228,7 @@ class Journal_NotificationComponent extends AppComponent
     $this->getLogger()->info("Name is " . $name);
     $this->getLogger()->info("Description is " . $description);
     $this->getLogger()->info("handle is " . $handle);
-    $viewLink =  $baseUrl . "/journal/view/" . $revision_id;
+    $viewLink =  $baseUrl . "/reviewosehra/submit?review_id=" . $reviewId;
     $this->_view->assign("name", $name);
     $this->_view->assign("title", $title);
     $this->_view->assign("link", $viewLink);
@@ -240,7 +242,7 @@ class Journal_NotificationComponent extends AppComponent
     $adminList = $this->_getSubmissionEditorEmails($resourceDao);
     $headers = $this->_formMailHeader($contactEmail, $editList, $adminList);
     $this->getLogger()->info("Email Header is " . $headers);
-    // send mail to the editors
+    // send mail to the submitter, editor as well as admins
     mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     }
 
