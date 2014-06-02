@@ -208,6 +208,10 @@ class Journal_NotificationComponent extends AppComponent
   public function newReview($reviewDao)
     {
     $this->getLogger()->info("New Review is Added");
+    $userId = $reviewDao->getUserId();
+    $this->getLogger()->info("User Id is " . $userId);
+    $revisionId = $reviewDao->getRevisionId();
+    $this->getLogger()->info("Revision Id is " . $revisionId);
     }
 
   /**
