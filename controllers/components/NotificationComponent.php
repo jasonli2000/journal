@@ -189,7 +189,7 @@ class Journal_NotificationComponent extends AppComponent
     $this->_layout->assign("content", $this->_view->render('newcomment.phtml'));
     $bodyText = $this->_layout->render('layout.phtml');
     $this->getLogger()->debug("Body Text is " . $bodyText);
-    $subject = 'Comment Added - Submission: ' . $name;
+    $subject = 'Comment Added - Submission: ' . $title;
     $to = '';
     // form the email headers part
     $editList = $this->_getSubmissionEditorEmails($resourceDao);
