@@ -232,7 +232,7 @@ class Journal_NotificationComponent extends AppComponent
     $this->_layout->assign("content", $this->_view->render('newreview.phtml'));
     $bodyText = $this->_layout->render('layout.phtml');
     $this->getLogger()->debug("Body Text is " . $bodyText);
-    $subject = 'New Review: ' . $name;
+    $subject = 'New Review: ' . $title;
     $to = '';
     // form the email headers part
     $editList = $this->_getSubmissionAdminEmails($resourceDao);
