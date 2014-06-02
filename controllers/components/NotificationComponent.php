@@ -224,10 +224,7 @@ class Journal_NotificationComponent extends AppComponent
     $resourceDao = MidasLoader::loadModel("Item")->initDao("Resource", $itemDao->toArray(), "journal");
     $contactEmail = $resourceDao->getSubmitter()->getEmail();
     $title = $resourceDao->getName();
-    $handle = $resourceDao->getHandle();
     $this->getLogger()->info("Name is " . $name);
-    $this->getLogger()->info("Description is " . $description);
-    $this->getLogger()->info("handle is " . $handle);
     $viewLink =  $baseUrl . "/reviewosehra/submit?review_id=" . $reviewId;
     $this->_view->assign("name", $name);
     $this->_view->assign("title", $title);
