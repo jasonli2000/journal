@@ -44,12 +44,12 @@ class Journal_NotificationComponent extends AppComponent
     $scriptpath = BASE_PATH . '/privateModules/journal/views/email';
     $this->_createEmailView($scriptpath, $baseUrl);
     $contactEmail = $resourceDao->getSubmitter()->getEmail();
-    $this->getLogger()->info("Contact Email is " . $contactEmail);
+    $this->getLogger()->debug("Contact Email is " . $contactEmail);
     $adminList = $this->_getSubmissionAdminEmails($resourceDao);
-    $this->getLogger()->info("AdminList is " . $adminList);
+    $this->getLogger()->debug("AdminList is " . $adminList);
     // extract the editor group based resourceDao
     $editList = $this->_getSubmissionEditorEmails($resourceDao);
-    $this->getLogger()->info("editList is " . $editList);
+    $this->getLogger()->debug("editList is " . $editList);
     $name = $resourceDao->getName();
     $description = $resourceDao->getDescription();
     $handle = $resourceDao->getHandle();
@@ -62,13 +62,13 @@ class Journal_NotificationComponent extends AppComponent
       $authList .= join(" ", $author) . ",";
       }
     if (!empty($authList)) $authList = substr($authList, 0, -1);
-    $this->getLogger()->info("Name is " . $name);
-    $this->getLogger()->info("Description is " . $description);
-    $this->getLogger()->info("handle is " . $handle);
-    $this->getLogger()->info("Authors are " . $authList);
+    $this->getLogger()->debug("Name is " . $name);
+    $this->getLogger()->debug("Description is " . $description);
+    $this->getLogger()->debug("handle is " . $handle);
+    $this->getLogger()->debug("Authors are " . $authList);
     $approveLink = "/journal/submit?revisionId=" . $revisionId;
-    $this->getLogger()->info("link is " . $approveLink);
-    $this->getLogger()->info("ItemId is " . $itemId);
+    $this->getLogger()->debug("link is " . $approveLink);
+    $this->getLogger()->debug("ItemId is " . $itemId);
     $this->_view->assign("name", $name);
     $this->_view->assign("author", $authList);
     $this->_view->assign("description", $description);
@@ -76,30 +76,30 @@ class Journal_NotificationComponent extends AppComponent
     $this->_layout->assign("content", $this->_view->render('sendforapproval.phtml'));
     $bodyText = $this->_layout->render('layout.phtml');
 
-    $this->getLogger()->info("Body Text is " . $bodyText);
+    $this->getLogger()->debug("Body Text is " . $bodyText);
     $subject = 'New Submission - Pending Approval: ' . $name;
     $to = '';
     // form the email headers part
     $headers = $this->_formMailHeader($contactEmail, $editList, $adminList);
-    $this->getLogger()->info("Email Header is " . $headers);
+    $this->getLogger()->debug("Email Header is " . $headers);
     // send mail to the editors
     $result = mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
-    $this->getLogger()->info("mail result is " . $result);
+    $this->getLogger()->debug("mail result is " . $result);
     // send mail to the submitter
     $this->_createEmailView($scriptpath, $baseUrl);
     $readlink = "/journal/view/" . $revisionId;
     $submitter = $resourceDao->getSubmitter();
     $name = $submitter->getFullName();
-    $this->getLogger()->info("name is " . $name);
+    $this->getLogger()->debug("name is " . $name);
     $this->_view->assign("name", $name);
     $this->_view->assign("link", $readlink);
     $this->_layout->assign("content", $this->_view->render('waitforapproval.phtml'));
     $headers = $this->_formMailHeader($contactEmail, null, null);
     $bodyText = $this->_layout->render('layout.phtml');
-    $this->getLogger()->info("Body Text is " . $bodyText);
-    $this->getLogger()->info("Email Header is " . $headers);
+    $this->getLogger()->debug("Body Text is " . $bodyText);
+    $this->getLogger()->debug("Email Header is " . $headers);
     $result = mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
-    $this->getLogger()->info("mail result is " . $result);
+    $this->getLogger()->debug("mail result is " . $result);
     }
 
   /**
@@ -109,14 +109,14 @@ class Journal_NotificationComponent extends AppComponent
    */
   public function newArticle($resourceDao)
     {
-    $this->getLogger()->info("New Article is Added");
+    $this->getLogger()->debug("New Article is Added");
     // @TODO Check user settings, but I do not think it has been implemented yet
     $fc = Zend_Controller_Front::getInstance();
     $baseUrl = UtilityComponent::getServerURL().$fc->getBaseUrl();
     $scriptpath = BASE_PATH . '/privateModules/journal/views/email';
     $this->_createEmailView($scriptpath, $baseUrl);
     $contactEmail = $resourceDao->getSubmitter()->getEmail();
-    $this->getLogger()->info("Contact Email is " . $contactEmail);
+    $this->getLogger()->debug("Contact Email is " . $contactEmail);
     $name = $resourceDao->getName();
     $description = $resourceDao->getDescription();
     $handle = $resourceDao->getHandle();
@@ -129,27 +129,27 @@ class Journal_NotificationComponent extends AppComponent
       $authList .= join(" ", $author) . ",";
       }
     if (!empty($authList)) $authList = substr($authList, 0, -1);
-    $this->getLogger()->info("Name is " . $name);
-    $this->getLogger()->info("Description is " . $description);
-    $this->getLogger()->info("handle is " . $handle);
-    $this->getLogger()->info("Authors are " . $authList);
+    $this->getLogger()->debug("Name is " . $name);
+    $this->getLogger()->debug("Description is " . $description);
+    $this->getLogger()->debug("handle is " . $handle);
+    $this->getLogger()->debug("Authors are " . $authList);
     $handleLink = "http://hdl.handle.net/" . $handle;
-    $this->getLogger()->info("link is " . $approveLink);
-    $this->getLogger()->info("ItemId is " . $itemId);
+    $this->getLogger()->debug("link is " . $approveLink);
+    $this->getLogger()->debug("ItemId is " . $itemId);
     $this->_view->assign("name", $name);
     $this->_view->assign("author", $authList);
     $this->_view->assign("description", $description);
     $this->_view->assign("link", $handleLink);
     $this->_layout->assign("content", $this->_view->render('newsubmission.phtml'));
     $bodyText = $this->_layout->render('layout.phtml');
-    $this->getLogger()->info("Body Text is " . $bodyText);
+    $this->getLogger()->debug("Body Text is " . $bodyText);
     $subject = 'New Submission: ' . $name;
     $to = '';
     // form the email headers part
     $editList = $this->_getSubmissionAdminEmails($resourceDao);
     $adminList = $this->_getSubmissionEditorEmails($resourceDao);
     $headers = $this->_formMailHeader($contactEmail, $editList, $adminList);
-    $this->getLogger()->info("Email Header is " . $headers);
+    $this->getLogger()->debug("Email Header is " . $headers);
     // send mail to the editors
     mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     }
@@ -161,7 +161,7 @@ class Journal_NotificationComponent extends AppComponent
    */
   public function newComment($commentDao)
     {
-    $this->getLogger()->info("New Comment is Added");
+    $this->getLogger()->debug("New Comment is Added");
     $itemId = $commentDao->getItemId();
     $userId = $commentDao->getUserId();
     $comment = $commentDao->getComment();
@@ -178,9 +178,9 @@ class Journal_NotificationComponent extends AppComponent
     $contactEmail = $submitter->getEmail();
     $title = $resourceDao->getName();
     $handle = $resourceDao->getHandle();
-    $this->getLogger()->info("contact email is " . $contactEmail);
-    $this->getLogger()->info("comment email is " . $comment);
-    $this->getLogger()->info("comment user is " . $userDao->getFullName());
+    $this->getLogger()->debug("contact email is " . $contactEmail);
+    $this->getLogger()->debug("comment email is " . $comment);
+    $this->getLogger()->debug("comment user is " . $userDao->getFullName());
     $this->_view->assign("name", $userDao->getFullName());
     $this->_view->assign("title", $title);
     $this->_view->assign("comments", $comment);
@@ -188,14 +188,14 @@ class Journal_NotificationComponent extends AppComponent
     $this->_view->assign("link", $handleLink);
     $this->_layout->assign("content", $this->_view->render('newcomment.phtml'));
     $bodyText = $this->_layout->render('layout.phtml');
-    $this->getLogger()->info("Body Text is " . $bodyText);
+    $this->getLogger()->debug("Body Text is " . $bodyText);
     $subject = 'Comment Added - Submission: ' . $name;
     $to = '';
     // form the email headers part
     $editList = $this->_getSubmissionEditorEmails($resourceDao);
     $adminList = $this->_getSubmissionAdminEmails($resourceDao);
     $headers = $this->_formMailHeader($contactEmail, $editList, $adminList);
-    $this->getLogger()->info("Email Header is " . $headers);
+    $this->getLogger()->debug("Email Header is " . $headers);
     // send mail to the editors
     mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     }
@@ -207,7 +207,7 @@ class Journal_NotificationComponent extends AppComponent
    */
   public function newReview($reviewDao)
     {
-    $this->getLogger()->info("New Review is Added");
+    $this->getLogger()->debug("New Review is Added");
     $fc = Zend_Controller_Front::getInstance();
     $baseUrl = UtilityComponent::getServerURL().$fc->getBaseUrl();
     $scriptpath = BASE_PATH . '/privateModules/journal/views/email';
@@ -215,30 +215,30 @@ class Journal_NotificationComponent extends AppComponent
     $userId = $reviewDao->getUserId();
     $revision_id = $reviewDao->getRevisionId();
     $reviewId = $reviewDao->getKey();
-    $this->getLogger()->info("Review Id is " . $reviewId);
+    $this->getLogger()->debug("Review Id is " . $reviewId);
     $userDao = MidasLoader::loadModel("User")->load($userId);
     $name = $userDao->getFullName();
-    $this->getLogger()->info("User name is " . $name);
+    $this->getLogger()->debug("User name is " . $name);
     $revision = MidasLoader::loadModel("ItemRevision")->load($revision_id);
     $itemDao = $revision->getItem();
     $resourceDao = MidasLoader::loadModel("Item")->initDao("Resource", $itemDao->toArray(), "journal");
     $contactEmail = $resourceDao->getSubmitter()->getEmail();
     $title = $resourceDao->getName();
-    $this->getLogger()->info("Name is " . $name);
+    $this->getLogger()->debug("Name is " . $name);
     $viewLink =  $baseUrl . "/reviewosehra/submit?review_id=" . $reviewId;
     $this->_view->assign("name", $name);
     $this->_view->assign("title", $title);
     $this->_view->assign("link", $viewLink);
     $this->_layout->assign("content", $this->_view->render('newreview.phtml'));
     $bodyText = $this->_layout->render('layout.phtml');
-    $this->getLogger()->info("Body Text is " . $bodyText);
+    $this->getLogger()->debug("Body Text is " . $bodyText);
     $subject = 'New Review: ' . $name;
     $to = '';
     // form the email headers part
     $editList = $this->_getSubmissionAdminEmails($resourceDao);
     $adminList = $this->_getSubmissionEditorEmails($resourceDao);
     $headers = $this->_formMailHeader($contactEmail, $editList, $adminList);
-    $this->getLogger()->info("Email Header is " . $headers);
+    $this->getLogger()->debug("Email Header is " . $headers);
     // send mail to the submitter, editor as well as admins
     mail($to, $subject, $bodyText, $headers, $this->defaultAdminEmail);
     }
@@ -324,6 +324,6 @@ class Journal_NotificationComponent extends AppComponent
         'X-Mailer: PHP/' . phpversion();
 
     $result = mail($to, $subject, $message, $headers);
-    $this->getLogger()->info("mail result is " . $result);
+    $this->getLogger()->debug("mail result is " . $result);
     }
 } // end class
