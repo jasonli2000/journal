@@ -30,7 +30,7 @@ div.questionWrapper{
 }
 div.questionElement{
   border:1px dotted #ccc;
-  height: 95;
+  height: 95px;
 }
 
 .selectMultipleWrapper {float:right; display:inline-block; vertical-align:top; overflow:hidden; border:solid #ccc 1px; }
