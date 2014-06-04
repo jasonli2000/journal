@@ -106,7 +106,7 @@ function processQuestionUpdate(init){
         $('#questionElement_'+j+" textarea").val(q.commentValue);
       });
     $('#topicComple_'+i).attr('checked', isComplete);
-    if (isFinalReview) $('#questionLevel_'+i).val(levelValue);
+    if (isFinalReview) $('#questionLevel_'+i).attr('value', levelValue);
     });
   percentage = parseInt(100 * totalQuestionAnswered/totalQuestion);
   $('progress').attr("value", percentage);
