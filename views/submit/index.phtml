@@ -88,7 +88,8 @@ $this->headScript()->appendFile($this->webroot . '/privateModules/reviewosehra/p
               <?php endif; ?>
             </div>
             <span class="questionDescription">{description}</span><br/>
-            Comment: <textarea <?php   if(!$this->isEditable)echo 'readonly';  ?> ></textarea><br/>
+            <div>Comment: </div>
+            <div><textarea <?php   if(!$this->isEditable)echo 'readonly';  ?> ></textarea><br/></div>
           </div>
         </div>        
       </td>
