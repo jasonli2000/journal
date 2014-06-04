@@ -77,7 +77,7 @@ function processQuestionUpdate(init){
       if (isFinalReview){
         html += "<td><input type='text' size='1' id='questionLevel_"+i+"' readonly='readonly'/></td>";
       }
-      html += "<td><input type='checkbox' readonly='readonly' id='topicComple_"+i+"'/></td>";
+      html += "<td><input type='checkbox' disabled='disabled' id='topicComple_"+i+"'/></td>";
       html += "</tr>";
       $('table#summaryTable tbody').append(html);
 
@@ -105,6 +105,7 @@ function processQuestionUpdate(init){
         $('#questionElement_'+j+" select").val(parseInt(q.value));
         $('#questionElement_'+j+" textarea").val(q.commentValue);
       });
+    $('#topicComple_'+i).attr('checked', isComplete);
     $('#topicComple_'+i).prop('checked', isComplete);
     if (isFinalReview){
       $('#questionLevel_'+i).attr('value', levelValue);
