@@ -98,7 +98,7 @@ function processQuestionUpdate(init){
     var isComplete = v.questions.length != 0;   
     var levelValue = 0;
     $.each(v.questions, function(j, q){
-        if (isFinalReview and j==0) levelValue = q.value;
+        if (isFinalReview && j===0) levelValue = q.value;
         totalQuestion++;
         if(q.value == 0) isComplete = false;
         if(q.value != 0) totalQuestionAnswered++;
