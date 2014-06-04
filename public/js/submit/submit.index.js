@@ -74,9 +74,9 @@ function processQuestionUpdate(init){
       else html += "<tr class='even' class='topicSum' id='topicSum_"+i+"'>";
       html += "<td><a class='selectTopic' value='"+i+"'>"+v.name+"</a></td>";
       if (parseInt(json.listArray.list.type) === 2){
-        html += "<td><input type='text' id='questionLevel'"+i+"readonly='readonly'/></td>";
+        html += "<td><input type='text' id='questionLevel'"+i+" readonly='readonly'/></td>";
       }
-      html += "<td><input type='checkbox' readonly='readonly'/></td>";
+      html += "<td><input type='checkbox' readonly='readonly' id='topicComple_'"+i+"/></td>";
       html += "</tr>";
       $('table#summaryTable tbody').append(html);
 
@@ -102,7 +102,7 @@ function processQuestionUpdate(init){
         $('#questionElement_'+j+" select").val(parseInt(q.value));
         $('#questionElement_'+j+" textarea").val(q.commentValue);
       });
-    $('#topicSum_'+i+" input").attr('checked', isComplete);
+    $('#topicComple_'+i).attr('checked', isComplete);
     });
   percentage = parseInt(100 * totalQuestionAnswered/totalQuestion);
   $('progress').attr("value", percentage);
