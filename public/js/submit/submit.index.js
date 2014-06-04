@@ -75,7 +75,7 @@ function processQuestionUpdate(init){
       else html += "<tr class='even' class='topicSum' id='topicSum_"+i+"'>";
       html += "<td><a class='selectTopic' value='"+i+"'>"+v.name+"</a></td>";
       if (isFinalReview){
-        html += "<td><input type='text' size='1' id='questionLevel_"+i+"' readonly='readonly'/></td>";
+        html += "<td><input type='text' size='1' id='questionLevel_"+i+"' disabled='disabled'/></td>";
       }
       else{
         html += "<td><input type='checkbox' disabled='disabled' id='topicComple_"+i+"'/></td>";
