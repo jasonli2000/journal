@@ -19,7 +19,7 @@ $phaseConvert = array(OSERHAREVIEW_LIST_PEERREVIEW => "Peer",
   <select name="certificationLevel" id="certificationLevel">
     <option value="-1"></option>
     <?php
-    for($i = 1; $i < 4; $i++)
+    for($i = 1; $i < 5; $i++)
       {
       echo "<option value = '".$i."' ";
       if($i == $this->resource->getCertificationLevel())
