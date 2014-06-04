@@ -77,7 +77,7 @@ function processQuestionUpdate(init){
       if (isFinalReview){
         html += "<td><input type='text' size='1' id='questionLevel_"+i+"' readonly='readonly'/></td>";
       }
-      html += "<td><input type='checkbox' readonly='readonly' id='topicComple_"+i+"'/></td>";
+      html += "<td><input type='checkbox'  id='topicComple_"+i+"'/></td>";
       html += "</tr>";
       $('table#summaryTable tbody').append(html);
 
@@ -107,7 +107,6 @@ function processQuestionUpdate(init){
       });
     $('#topicComple_'+i).attr('checked', isComplete);
     if (isFinalReview){
-      console.log("current topic " + i + "value: " + levelValue);
       $('#questionLevel_'+i).attr('value', levelValue);
     }
     });
