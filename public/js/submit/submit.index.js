@@ -105,7 +105,7 @@ function processQuestionUpdate(init){
         $('#questionElement_'+j+" select").val(parseInt(q.value));
         $('#questionElement_'+j+" textarea").val(q.commentValue);
       });
-    $('#topicComple_'+i).attr('checked', isComplete).checkboxradio('refresh');
+    $('#topicComple_'+i).prop('checked', isComplete);
     if (isFinalReview){
       $('#questionLevel_'+i).attr('value', levelValue);
     }
