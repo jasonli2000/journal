@@ -28,8 +28,9 @@ $this->headScript()->appendFile($this->webroot . '/privateModules/reviewosehra/p
                 <th>Topic</th>
                 <?php if ($this->listArray['list']['type'] == OSERHAREVIEW_LIST_FINALREVIEW):?>
                   <th>Level</th>
+                <?php else:?>
+                  <th>Completed</th>
                 <?php endif;?>
-                <th>Completed</th>
               </tr>
             </thead>
             <tbody>
