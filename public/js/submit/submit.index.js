@@ -61,6 +61,7 @@ function questionTemplate(id, html, values) {
 
 var percentage;
 function processQuestionUpdate(init){
+  var isFinalReview = parseInt(json.listArray.list.type) === 2;
   if(init)
     {
     var template = $('div#templateQuestion').html();
@@ -73,7 +74,7 @@ function processQuestionUpdate(init){
       if(i%2 == 0)html += "<tr class='topicSum' id='topicSum_"+i+"'>";
       else html += "<tr class='even' class='topicSum' id='topicSum_"+i+"'>";
       html += "<td><a class='selectTopic' value='"+i+"'>"+v.name+"</a></td>";
-      if (parseInt(json.listArray.list.type) === 2){
+      if (isFinalReview){
         html += "<td><input type='text' id='questionLevel_"+i+"' readonly='readonly'/></td>";
       }
       html += "<td><input type='checkbox' readonly='readonly' id='topicComple_"+i+"'/></td>";
@@ -95,7 +96,10 @@ function processQuestionUpdate(init){
   var totalQuestionAnswered = 0;
   $.each(json.listArray.topics, function(i, v){  
     var isComplete = v.questions.length != 0;   
+    var levelValue = 0;
     $.each(v.questions, function(j, q){
+        if (isFinalReview and j==0):
+          levelValue = q.value
         totalQuestion++;
         if(q.value == 0) isComplete = false;
         if(q.value != 0) totalQuestionAnswered++;
@@ -103,7 +107,7 @@ function processQuestionUpdate(init){
         $('#questionElement_'+j+" textarea").val(q.commentValue);
       });
     $('#topicComple_'+i).attr('checked', isComplete);
-    $('#questionLevel_'+i).val(parseInt(q.value));
+    if (isFinalReview) $('#questionLevel_'+i).val(levelValue);
     });
   percentage = parseInt(100 * totalQuestionAnswered/totalQuestion);
   $('progress').attr("value", percentage);
