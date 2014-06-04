@@ -26,6 +26,9 @@ $this->headScript()->appendFile($this->webroot . '/privateModules/reviewosehra/p
             <thead>
               <tr>
                 <th>Topic</th>
+                <?php if ($this->listArray['list']['type'] == OSERHAREVIEW_LIST_PEERREVIEW);?>
+                  <th>Level</th>
+                <?php endif;?>
                 <th>Completed</th>
               </tr>
             </thead>
