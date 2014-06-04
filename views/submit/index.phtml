@@ -70,16 +70,14 @@ $this->headScript()->appendFile($this->webroot . '/privateModules/reviewosehra/p
           </select></h4>
           <div id="templateQuestion" style="display:none;">
             <div class="selectMultipleWrapper">
-              <?php if ($this->listArray['list']['type'] == OSERHAREVIEW_LIST_PEERREVIEW)
-              ?>
+              <?php if ($this->listArray['list']['type'] == OSERHAREVIEW_LIST_PEERREVIEW): ?>
                 <select <?php   if(!$this->isEditable)echo 'disabled="disabled"';  ?> multiple size=4>
                   <option value="<?php echo OSERHAREVIEW_REVIEW_LOW ?>">Low</option>
                   <option value="<?php echo OSERHAREVIEW_REVIEW_MEDIUM ?>">Medium</option>
                   <option value="<?php echo OSERHAREVIEW_REVIEW_HIGH ?>">High</option>
                   <option value="<?php echo OSERHAREVIEW_REVIEW_NA ?>">N/A</option>
                 </select>
-              <?php else
-              ?>
+              <?php else: ?>
                 <select <?php   if(!$this->isEditable)echo 'disabled="disabled"';  ?> multiple size=5>
                   <option value="<?php echo OSERHAREVIEW_LEVEL_ZERO ?>">Level 0</option>
                   <option value="<?php echo OSEHRAREVIEW_LEVEL_ONE ?>">Level 1</option>
@@ -87,6 +85,7 @@ $this->headScript()->appendFile($this->webroot . '/privateModules/reviewosehra/p
                   <option value="<?php echo OSEHRAREVIEW_LEVEL_THREE ?>">Level 3</option>
                   <option value="<?php echo OSEHRAREVIEW_LEVEL_FOUR ?>">Level 4444</option>
                 </select>
+              <?php endif; ?>
             </div>
             <span class="questionDescription">{description}</span><br/>
             Comment: <textarea <?php   if(!$this->isEditable)echo 'readonly';  ?> ></textarea><br/>
