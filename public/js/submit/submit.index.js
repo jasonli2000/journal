@@ -73,6 +73,9 @@ function processQuestionUpdate(init){
       if(i%2 == 0)html += "<tr class='topicSum' id='topicSum_"+i+"'>";
       else html += "<tr class='even' class='topicSum' id='topicSum_"+i+"'>";
       html += "<td><a class='selectTopic' value='"+i+"'>"+v.name+"</a></td>";
+      if (json.listArray.list.type === 2){
+        html += "<td><input type='number' min='0' max='4' disabled='disabled'/></td>";
+      }
       html += "<td><input type='checkbox' disabled='disabled'/></td>";
       html += "</tr>";
       $('table#summaryTable tbody').append(html);
