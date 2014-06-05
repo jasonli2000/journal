@@ -7,20 +7,23 @@ $this->headScript()->appendFile($this->webroot . '/privateModules/reviewosehra/p
 <h3>Title: <?php echo $this->resource->getName() ?> </h3>
 <div class="abstract" style="text-align: justify;"><?php echo str_replace("<br>", "<br/>", nl2br($this->resource->getDescription())) ?></div>
 
+<h3><?php echo ($this->listArray['list']['type'] == OSERHAREVIEW_LIST_PEERREVIEW) ? "Peer Review": "Final Review"?></h3>
+<div id="certificationWrapper">
+  <h4>OSEHRA Certification Standard Matrix:</h4>
+  <table id="certificationTable">
+    <thead>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
 <br/>
-
 <div id="reviewWrapper">
   <table>
     <tr>
       <td id="tdLeftPanel">
         <div id="divLeftPanel">
-          <h4><?php echo ($this->listArray['list']['type'] == OSERHAREVIEW_LIST_PEERREVIEW) ? "Peer Review": "Final Review"?></h4>
-          <p id="descriptionQuestionList">
-
-          </p>
-          <p >
-            Text about the certifications levels.
-          </p>
+          <h4 id="descriptionQuestionList"> </h4>
           <h4>Summary</h4>
           <table id="summaryTable">
             <thead>

@@ -1,5 +1,6 @@
+var isFinalReview= false;
 $(document).ready(function(){
-  
+  isFinalReview = parseInt(json.listArray.list.type) === 2;
   processQuestionUpdate(true);
   $("div#questionWrapper_"+$("select#listTopics").val()).show();
   $("select#listTopics").change(function(){
@@ -47,11 +48,61 @@ $(document).ready(function(){
     {
       window.location.href = data;
     }, 'json')
-    
-    
   });
+  $('#certificationWrapper').hide();
+  if (isFinalReview){ // populate the certification matrix table
+    populateCertificationMatrixTable();
+    $('#certificationWrapper').show();
+  }
 });
 
+function populateCertificationMatrixTable(){
+  var certiArray = [
+    ['Level 1',
+     'Pass', 'Pass', 'Apache 2', 'None',
+     'Large # Non-critical Issues', 'Large # Non-critical Issues',
+     'Existing Tests Pass', 'Large # Non-critical Issues'
+    ],
+    ['Level 2',
+     'Pass', 'Pass', 'Apache 2', 'Basic',
+     'Small # Non-critical Issues', 'Small # Non-critical Issues',
+     'Existing + Some R. Tests', 'Small # Non-critical Issues'
+    ],
+    ['Level 3',
+     'Pass', 'Pass', 'Apache 2', 'Substantial',
+     'No Issues', 'No Issues',
+     'Existing + >= 50% Coverage', 'No Issues'
+    ],
+    ['Level 4',
+     'Pass', 'Pass', 'Apache 2', 'All Required',
+     'No Issues', 'No Issues',
+     'Existing + >= 90% Coverage', 'No Issues'
+    ]
+  ];
+  // generate the certification table head based on topic
+  var html = "<tr><th></th>";
+  $.each(json.listArray.topics, function(i, v){      
+    // certification topics
+    html += "<th>" + v.name + "</th>";
+  });
+  html += "</tr>";
+  $('table#certificationTable thead').append(html);
+  for (i = 0; i < certiArray.length; ++i) {
+    html="";
+    if(i%2 == 0) html += "<tr class='topicSum'>";
+    else html += "<tr class='even' class='topicSum'>";
+    for (j = 0; j < certiArray[i].length; ++j) {
+      if (j === 0){
+        html += "<td id='levelInfo'>" + certiArray[i][j] + "</td>";
+      }
+      else{
+        html += "<td>" + certiArray[i][j] + "</td>";
+      }
+    }
+    html += "</tr>";
+    $('#certificationWrapper table#certificationTable tbody').append(html);
+  }
+}
 /** Simple templating mechanism */
 function questionTemplate(id, html, values) {
   html = "<div class='questionElement' key='"+id+"' id='questionElement_"+id+"'>"+html+"</div>";
@@ -61,7 +112,6 @@ function questionTemplate(id, html, values) {
 
 var percentage;
 function processQuestionUpdate(init){
-  var isFinalReview = parseInt(json.listArray.list.type) === 2;
   if(init)
     {
     var template = $('div#templateQuestion').html();
