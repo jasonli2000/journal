@@ -103,12 +103,15 @@ $this->headScript()->appendFile($this->webroot . '/privateModules/journal/public
         <td>" . $bitstream->getName() . "</td><td>" . $typeToString[$type] . "</td><td><a href='#' class='deleteLink'>Delete</a></td>";
       }
     echo "</tbody>
-
+I have the right to distribute these files
           </table>";
     ?>
     <br/>
     <input type="checkbox" class="checkbox" id="acceptRights" value="1">
     <label style="display:inline;" for="acceptRights"> I certify that I have the right to distribute these files.</label>
+    <br/>
+    <input type="checkbox" class="checkbox" id="acceptLicense" value="1">
+    <label style="display:inline;" for="acceptLicense"> I certify that all source code files/repositories uploaded here are under Apache 2 License (optional).</label>
     <br/>
 
     <form action="" method="POST">
