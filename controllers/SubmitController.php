@@ -32,6 +32,7 @@ class Reviewosehra_SubmitController extends Reviewosehra_AppController
       {
       throw new Zend_Exception("revision_id should be a number");
       }
+    $this->getLogger()->info("Current revision_id is " . $revision_id . " review_id is " . $review_id);
     $revision = MidasLoader::loadModel("ItemRevision")->load($revision_id);
     $itemDao = $revision->getItem();
     if($itemDao === false || !MidasLoader::loadModel("Item")->policyCheck($itemDao, $this->userSession->Dao, MIDAS_POLICY_READ))
@@ -44,7 +45,7 @@ class Reviewosehra_SubmitController extends Reviewosehra_AppController
     $reviewPhase = $resourceDao->getMetaDataByQualifier("reviewPhase");
     if($reviewPhase) $reviewPhase = $reviewPhase->getValue();
     else $reviewPhase = OSERHAREVIEW_LIST_PEERREVIEW;
-    
+    $this->getLogger()->info("Current review phase is " . $reviewPhase); 
     if($this->_request->isPost())
       {
       $this->disableLayout();
@@ -103,7 +104,7 @@ class Reviewosehra_SubmitController extends Reviewosehra_AppController
       $mainListTmp = false;
       foreach($questionslists as $list)
         {
-        if($list->getCategoryId() == -1)
+        if($list->getCategoryId() == -1 && $list->getType() == $reviewPhase)
           {
           $mainListTmp = $list;
           break;
