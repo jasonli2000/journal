@@ -156,6 +156,15 @@ function processQuestionUpdate(init){
         if(q.value != 0) totalQuestionAnswered++;
         $('#questionElement_'+j+" select").val(parseInt(q.value));
         $('#questionElement_'+j+" textarea").val(q.commentValue);
+        if (parseInt(q.attachfile) > 0)
+        {
+          $('#questionElement_'+j+" input").show()
+          if (q.attachfileValue){
+          }
+          else{
+            $('#questionElement_'+j+" fileAttached").val("Attach Files")
+          }
+        }
       });
     if (isFinalReview){
       $('#questionLevel_'+i).attr('value', levelValue);

@@ -79,7 +79,8 @@ $this->headScript()->appendFile($this->webroot . '/privateModules/reviewosehra/p
           <div id="templateQuestion" style="display:none;">
             <div class="selectMultipleWrapper">
               <?php if ($this->listArray['list']['type'] == OSERHAREVIEW_LIST_PEERREVIEW): ?>
-                <select <?php   if(!$this->isEditable)echo 'disabled="disabled"';  ?> multiple size=4>
+                <select <?php   if(!$this->isEditable)echo 'disabled="disabled"';  ?> multiple size=5>
+                  <option value="<?php echo OSERHAREVIEW_REVIEW_NOTHING ?>"></option>
                   <option value="<?php echo OSERHAREVIEW_REVIEW_LOW ?>">Low</option>
                   <option value="<?php echo OSERHAREVIEW_REVIEW_MEDIUM ?>">Medium</option>
                   <option value="<?php echo OSERHAREVIEW_REVIEW_HIGH ?>">High</option>
@@ -87,7 +88,7 @@ $this->headScript()->appendFile($this->webroot . '/privateModules/reviewosehra/p
                 </select>
               <?php else: ?>
                 <select <?php   if(!$this->isEditable)echo 'disabled="disabled"';  ?> multiple size=5>
-                  <option value="<?php echo OSEHRAREVIEW_LEVEL_ZERO ?>">Level 0</option>
+                  <option value="<?php echo OSEHRAREVIEW_LEVEL_ZERO ?>"></option>
                   <option value="<?php echo OSEHRAREVIEW_LEVEL_ONE ?>">Level 1</option>
                   <option value="<?php echo OSEHRAREVIEW_LEVEL_TWO ?>">Level 2</option>
                   <option value="<?php echo OSEHRAREVIEW_LEVEL_THREE ?>">Level 3</option>
@@ -97,7 +98,8 @@ $this->headScript()->appendFile($this->webroot . '/privateModules/reviewosehra/p
             </div>
             <span class="questionDescription">{description}</span><br/>
             <div>Comment: </div>
-            <div><textarea <?php   if(!$this->isEditable)echo 'readonly';  ?> ></textarea><br/></div>
+            <div><textarea <?php   if(!$this->isEditable)echo 'readonly';  ?> ></textarea></div>
+            <input type="file" class="questionDescription" multiple style="display:none">
           </div>
         </div>        
       </td>
