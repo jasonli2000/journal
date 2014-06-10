@@ -243,7 +243,7 @@ function addAndFormatResult(container, values) {
   var newElement = $('div.SearchResultEntry:last');
   newElement.find('.ResultTitle').dotdotdot( {'height': 20});
             
-  if(true||  values.logo == "")
+  if(values.logo == "")
     {
     newElement.find('.ResultLogo:first').remove();
     }
