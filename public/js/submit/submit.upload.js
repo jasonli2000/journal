@@ -4,6 +4,9 @@ $(document).ready(function(){
       $('input[type=submit]').attr('disabled', !$(this).is(':checked'));
     })
     
+    $('#acceptLicense').change(function(){
+      $('#hiddenSourceLicense').attr('value', $(this).is(':checked') ? 1: 0);
+    })
     $('#typeFile').change(function(){      
       if($(this).val() == 6)
         {

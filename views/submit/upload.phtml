@@ -110,7 +110,7 @@ I have the right to distribute these files
     <input type="checkbox" class="checkbox" id="acceptRights" value="1">
     <label style="display:inline;" for="acceptRights"> I certify that I have the right to distribute these files.</label>
     <br/>
-    <input type="checkbox" class="checkbox" id="acceptLicense" value="1">
+    <input type="checkbox" class="checkbox" id="acceptLicense" value="0" <?php if ($this->resource->getSourceLicense()) echo "checked='true'";?>>
     <label style="display:inline;" for="acceptLicense"> I certify that all source code files/repositories uploaded here are under Apache 2 License (optional).</label>
     <br/>
 
@@ -134,6 +134,6 @@ I have the right to distribute these files
       }
     ?>
 
-
+      <input name="source-license" type="hidden" id="hiddenSourceLicense" value='0'/> 
   </form>
 </div> 

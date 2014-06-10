@@ -386,6 +386,10 @@ class Journal_SubmitController extends Journal_AppController
           {
           $this->view = MidasLoader::loadComponent("Notification", "journal")->sendForApproval($resourceDao);
           }
+        if (isset($_POST['source-license']))
+          {
+          $resourceDao->setSourceLicense($_POST['source-license']);
+          }
         $this->_redirect("/journal/view/".$resourceDao->getRevision()->getKey());
         return;
         }

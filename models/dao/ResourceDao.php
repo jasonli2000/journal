@@ -206,6 +206,27 @@ class Journal_ResourceDao extends ItemDao
     $this->setMetaDataByQualifier("certification_level", $handle);
     }
     
+
+  /** Get source code license
+   * 
+   * @return 
+   */
+  function getSourceLicense()
+    {
+    $metadata = $this->getMetaDataByQualifier("source_license");
+    if(!$metadata) return '';
+    return $metadata->getValue();
+    }
+
+   /* Set source code license
+   * @param 
+   */
+  function setSourceLicense($handle)
+    {
+    $this->setMetaDataByQualifier("source_license", $handle);
+    }
+    
+
   /** Generate new handle */
   function initHandle()
     {
