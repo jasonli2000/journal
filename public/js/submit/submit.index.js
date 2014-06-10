@@ -49,7 +49,7 @@ $(document).ready(function(){
       $('#showPackagesLink').click(function(){
          var treeid = $(this).attr('tree');
          $('#'+treeid).show();
-         $(this).html("(<a>Select all</a>, <a>Un-Select all</a>");
+         $(this).html("(<a>Select all</a>, <a>Un-Select all</a>)");
          $(this).unbind('click')
          $(this).find('a:first').click(function(){
            $('#'+treeid).dynatree("getRoot").visit(function(node){
