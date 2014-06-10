@@ -63,6 +63,8 @@ class Journal_TreeComponent extends AppComponent
                 array('dao' => new stdClass(), 'select' => 0, 'title' => "Level 2", 'key' => "certified-2", 
                 'children' => array()),
                 array('dao' => new stdClass(), 'select' => 0, 'title' => "Level 3", 'key' => "certified-3", 
+                'children' => array()),
+                array('dao' => new stdClass(), 'select' => 0, 'title' => "Level 4", 'key' => "certified-4", 
                 'children' => array())                
             ));
       }
