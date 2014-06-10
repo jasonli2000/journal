@@ -146,7 +146,12 @@ foreach ($cssArray as $module => $list)
           }
         echo "</select></li>";
         }
-        ?>
+      $sourceLicense = $this->resource->getSourceLicense();
+      if(!empty($sourceLicense) && $sourceLicense > "0")
+        {
+        echo "<li>License: <a href='http://www.apache.org/licenses/LICENSE-2.0.html'>Apache 2</a></li>";
+        }
+      ?>
       <?php if ($this->resource->getPrivacyStatus() == MIDAS_PRIVACY_PRIVATE) echo '<li>This publication is private.</li>'; ?>
     </ul>
     <h4>Share</h4> 
