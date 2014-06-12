@@ -156,7 +156,7 @@ function processQuestionUpdate(init){
         $('#questionElement_'+j+" textarea").val(q.commentValue);
         if (parseInt(q.attachfile) > 0)
         {
-          $('#questionElement_'+j+" input").show()
+          //$('#questionElement_'+j+" input").show()
           if (q.attachfileValue){
           }
           else{
