@@ -112,11 +112,13 @@ $(document).ready(function(){
 function getSelectedCategories()
   {
   var result = new Array();
-  $("#treeWrapper div.categoryTree").each(function(){
+  $("#treeWrapper div.categoryTree").each(function(i, n){
+    var selected =  new Array();
     var nodes = $(this).dynatree("getSelectedNodes");
     $.each(nodes, function(index, value){
-      result.push(value.data.key);
+      selected.push(value.data.key);
     });
+    if (selected.length > 0) result.push(selected);
   });
   return result;
   }
@@ -138,19 +140,21 @@ function searchDatabase(append)
   var categories = getSelectedCategories();
   if(categories.length != 0)
     {
-    fullQuery+= " AND (";
-    $.each(categories, function(index, value){
-      if(index != 0) fullQuery += " AND ";
-      if(value.indexOf("certified") != -1)
-        {          
-        fullQuery+= "text-journal.certification_level:"+value.charAt(value.length - 1)+" ";          
-        }
-      else
-        {
-        fullQuery+= " text-journal.categories:"+value+" ";
-        }
+    $.each(categories, function(idx, val){
+      fullQuery+= " AND (";
+      $.each(val, function(index, value){
+        if(index != 0) fullQuery += " OR ";
+        if(value.indexOf("certified") != -1)
+          {          
+          fullQuery+= "text-journal.certification_level:"+value.charAt(value.length - 1)+" ";          
+          }
+        else
+          {
+          fullQuery+= " text-journal.categories:"+value+" ";
+          }
+      });
+      fullQuery+= ")";
     });
-    fullQuery+= ")";
     }
     
   if(selectIssue)
