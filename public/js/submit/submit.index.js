@@ -50,10 +50,8 @@ $(document).ready(function(){
     }, 'json')
   });
   $('#certificationWrapper').hide();
-  if (isFinalReview){ // populate the certification matrix table
-    populateCertificationMatrixTable();
-    $('#certificationWrapper').show();
-  }
+  populateCertificationMatrixTable();
+  $('#certificationWrapper').show();
 });
 
 function populateCertificationMatrixTable(){
