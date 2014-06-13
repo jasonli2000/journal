@@ -45,23 +45,33 @@ $(document).ready(function(){
     tree = FixTreeObjects(tree);
     if(tree.title == "Packages")
       {
-      $('#treeWrapper').append('<div class="TreeEntry"><b>'+tree.title+' </b> <span tree="categoryTree-'+tree.key+'" id="showPackagesLink">(<a>Show Packages</a>)</span><br/><div style="display:none;" id="categoryTree-'+tree.key+'" class="categoryTree"></div>');    
+      var treeid = "categoryTree-" + tree.key;
+      var treeEntry = '<div class="TreeEntry"><b>'+tree.title + '</b>';
+      treeEntry += '<span tree="'+treeid+'" id="showPackagesLink">&nbsp;&nbsp;<a>Show Packages</a></span>';
+      treeEntry += '<span tree="'+treeid+'" id="hidePackagesLink" style="display:none">&nbsp;&nbsp;';
+      treeEntry += '<a>Select all</a>&nbsp; | &nbsp;<a>Select None</a>&nbsp; | &nbsp;<a>Hide Packages</a></span><br/>';
+      treeEntry += ' <div style="display:none;" id="categoryTree-'+tree.key+'" class="categoryTree"></div>';
+      $('#treeWrapper').append(treeEntry);
       $('#showPackagesLink').click(function(){
-         var treeid = $(this).attr('tree');
          $('#'+treeid).show();
-         $(this).html("(<a>Select all</a>, <a>Un-Select all</a>)");
-         $(this).unbind('click')
-         $(this).find('a:first').click(function(){
-           $('#'+treeid).dynatree("getRoot").visit(function(node){
-            node.select(true);
-          });
-         })
-         $(this).find('a:last').click(function(){
-           $('#'+treeid).dynatree("getRoot").visit(function(node){
+         $('#showPackagesLink').hide();
+         $('#hidePackagesLink').show();
+      });
+      $('#hidePackagesLink a:first').click(function(){
+         $('#'+treeid).dynatree("getRoot").visit(function(node){
+          node.select(true);
+        });
+      });
+      $('#hidePackagesLink a:eq(1)').click(function(){
+         $('#'+treeid).dynatree("getRoot").visit(function(node){
             node.select(false);
-          });
-         })
-      })
+         });
+      });
+      $('#hidePackagesLink a:last').click(function(){
+           $('#hidePackagesLink').hide();
+           $('#showPackagesLink').show();
+           $('#'+treeid).hide();
+      });
       }
     else
       {
