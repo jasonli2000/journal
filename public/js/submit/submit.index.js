@@ -43,40 +43,41 @@ $(document).ready(function(){
   $.each(json.trees, function(key, tree)
   {
     tree = FixTreeObjects(tree);
-    if(tree.title == "Packages")
-      {
-      var treeid = "categoryTree-" + tree.key;
-      var treeEntry = '<div class="TreeEntry"><b>'+tree.title + '</b>';
-      treeEntry += '<span tree="'+treeid+'" id="showPackagesLink">&nbsp;&nbsp;<a>Show Packages</a></span>';
-      treeEntry += '<span tree="'+treeid+'" id="hidePackagesLink" style="display:none">&nbsp;&nbsp;';
-      treeEntry += '<a>Select all</a>&nbsp; | &nbsp;<a>Select None</a>&nbsp; | &nbsp;<a>Hide Packages</a></span><br/>';
+    var hideTree = tree.children.length > 10;
+    var treeid = "categoryTree-" + tree.key;
+    var treeEntry = '<div class="TreeEntry"><b>'+tree.title + '</b>';
+    if (hideTree){
+      treeEntry += '<span tree="'+treeid+'" id="showPackagesLink'+tree.key+'">&nbsp;&nbsp;<a>Show</a></span>';
+      treeEntry += '<span tree="'+treeid+'" id="hidePackagesLink'+tree.key+'" style="display:none">&nbsp;&nbsp;';
+      treeEntry += '<a>Select all</a>&nbsp; | &nbsp;<a>Select None</a>&nbsp; | &nbsp;<a>Hide</a></span><br/>';
       treeEntry += ' <div style="display:none;" id="categoryTree-'+tree.key+'" class="categoryTree"></div>';
-      $('#treeWrapper').append(treeEntry);
-      $('#showPackagesLink').click(function(){
+    }
+    else{
+      treeEntry += ' <div id="categoryTree-'+tree.key+'" class="categoryTree"></div>';
+    }
+    $('#treeWrapper').append(treeEntry);
+    if (hideTree){
+      $('#showPackagesLink'+tree.key).click(function(){
          $('#'+treeid).show();
-         $('#showPackagesLink').hide();
-         $('#hidePackagesLink').show();
+         $('#showPackagesLink'+tree.key).hide();
+         $('#hidePackagesLink'+tree.key).show();
       });
-      $('#hidePackagesLink a:first').click(function(){
+      $('#hidePackagesLink'+tree.key+' a:first').click(function(){
          $('#'+treeid).dynatree("getRoot").visit(function(node){
           node.select(true);
         });
       });
-      $('#hidePackagesLink a:eq(1)').click(function(){
+      $('#hidePackagesLink'+tree.key+' a:eq(1)').click(function(){
          $('#'+treeid).dynatree("getRoot").visit(function(node){
             node.select(false);
          });
       });
-      $('#hidePackagesLink a:last').click(function(){
-           $('#hidePackagesLink').hide();
-           $('#showPackagesLink').show();
+      $('#hidePackagesLink'+tree.key+' a:last').click(function(){
+           $('#hidePackagesLink'+tree.key).hide();
+           $('#showPackagesLink'+tree.key).show();
            $('#'+treeid).hide();
       });
-      }
-    else
-      {
-      $('#treeWrapper').append('<div class="TreeEntry"><b>'+tree.title+' </b><br/><div id="categoryTree-'+tree.key+'" class="categoryTree"></div>');    
-      }
+    }
     /* Init trees */
     $("div.categoryTree:last").dynatree({
       checkbox: true,
